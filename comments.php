@@ -1,7 +1,7 @@
 <?php
 	require_once 'phpimports/header.php';
 	session_start();
-	$username = $forename = $surname = $deletemsg = null;
+	$username = $deletemsg = null;
 	if (isset($_POST['logout'])) {
 		session_unset();
 		if (ini_get("session.use_cookies")) {
@@ -20,8 +20,6 @@
 	if (isset($_SESSION['username']))
 	{
 		$username = $_SESSION['username'];
-		$forename = $_SESSION['forename'];
-		$surname  = $_SESSION['surname'];
 	}
 	else header("Location: login.php");
 	if (isset($_POST['delete'])) 
