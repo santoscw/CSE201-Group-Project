@@ -10,7 +10,7 @@
 		$un_temp = mysql_sanitize_db_input_info($_POST['username']);
 		$token = mysql_sanitize_password($_POST['password']);
 		
-		$query  = "SELECT * FROM users WHERE username='$un_temp'";
+		$query  = "SELECT * FROM user WHERE username='$un_temp'";
 		$result = queryMysql($query);
 		if (!$result) die($connection->error);
 		elseif (true) // $result->num_rows
@@ -23,8 +23,6 @@
 			{
 				session_start();
 				$_SESSION['username'] = $un_temp;
-				$_SESSION['forename'] = $row[0];
-				$_SESSION['surname']  = $row[1];
 				header("Location: admin_home.php");
 			}
 			else $error = "<li data-form='ui-body-a'><pre class='ui-custom-inherit'>Username or password is incorrect</pre></li>";
@@ -72,6 +70,7 @@
 					<ul id="MenuBar1" class="MenuBarHorizontal">
 						<li><a href="index.php" title="Home" data-ajax="false">Home</a></li>
 						<li><a href="login.php" class="ui-btn-icon-left ui-icon-user ui-state-persist ui-btn-active" title="Login Page">Log In</a></li>
+						<li><a href="signup.php" title="Register" data-ajax="false">Register</a></li>
 					</ul>
 				</nav>
 			</header>
