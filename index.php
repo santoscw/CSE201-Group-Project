@@ -2,18 +2,8 @@
 	require_once 'phpimports/header.php';
 	
 	$nameErr = $emailErr = $commentsErr = $submitmsg = $error = null;
-	session_start();
-	if (isset($_SESSION['initiated'])) {
-		session_unset();
-		if (ini_get("session.use_cookies")) {
-			$params = session_get_cookie_params();
-			setcookie(session_name(), '', time() - 42000);
-		}
-	    session_destroy();
-		exit();
-	}
 
-	$response = null;
+//	$response = null;
 	if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['comments'])) 
 	{
 		$name_temp = mysql_sanitize_db_input_info($_POST['name']);
@@ -49,6 +39,18 @@
 		}
 	}
 	closeConnection();
+	
+		session_start();
+	if (isset($_SESSION['initiated'])) {
+		session_unset();
+		if (ini_get("session.use_cookies")) {
+			$params = session_get_cookie_params();
+			setcookie(session_name(), '', time() - 42000);
+		}
+	    session_destroy();
+		exit();
+	}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -71,20 +73,40 @@
 			</head>
 	<body>
 		<header class="main_nav gray">
+			
 			<div class="container">
 				<div class="twelve columns">
 					<div class="logo">
-						<p class="logomain">Project<sub class="sub">.com</sub></p>
+						<p class="logomain">Dog Database</p>
 					</div>
 					<nav data-role="navbar">
 						<ul>
 							<li><a href="#" class="ui-btn-active ui-state-persist" title="Home" data-ajax="false">Home</a></li>
-							<li><a href="/login.php" class="ui-btn-icon-left ui-icon-lock" title="Login" data-ajax="false">Login</a></li>						
+							<li><a href="/login.php" class="ui-btn-icon-left ui-icon-lock" title="Login" data-ajax="false">Login</a></li>
+							<li><a href="/breeds.html" title="Breeds" class="ui-btn">Breeds</a></li>
+	 						<li><a href="Shelter.html" title="Shelters" class="ui-btn">Shelter</a></li>
+							<li><a href="contact.html" title="Contact Us" class="ui-btn">Contact Us</a></li>								
 						</ul>
 					</nav>
+					<div id="sb-search" class="sb-search">
+							<form action="#" method="post">
+								<input type="search" class="sb-search-input" name="Search" placeholder="Enter your search term..." id="search" required="">
+								<button class="sb-search-submit" type="submit" value="" name="Search">Search </button>
+								<span class="sb-icon-search"> </span>
+							</form>
+							<div class="clearfix"> </div>
+							<!-- search-scripts -->
+							<script src="js/classie.js"></script>
+							<script src="js/uisearch.js"></script>
+							<script>
+								new UISearch( document.getElementById( 'sb-search' ) );
+							</script>
+							<!-- //search-scripts -->
+						</div>
 				</div>
 			</div>
 		</header>
+
 		<div class="container">
 			<div data-form="ui-body-a" id="contactSection" data-theme="a" class="ui-body ui-body-a ui-corner-all">
 				<form data-form="ui-body-a" id="contactForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" data-ajax="false">
@@ -119,22 +141,109 @@
 						<div class="container">
 							<div class="twelve columns">
 								<a class="ui-btn ui-input-btn ui-btn-icon-right ui-icon-comment ui-corner-all" data-form="ui-btn-up-a" id="submitProxy">Submit</a>
-								<?php
-									if ($response != null && $response->success) {
-										echo $submitmsg;
-									}
-								?>
+								
 							</div>
+							<?php
+									if ($submitmsg != null) { ?>
+										<p class='submit'>Thanks for the comment!</p>
+							<?php		}
+								?>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
+		<style>
+body, html {
+    height: 100%;
+}
+.hero-image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("husky-2.jpg");
+  height: 50%;
+
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+.hero-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+</style>
+
+
+	<!-- header -->
+	<!-- //header -->
+	<!-- banner -->
+	<div class="banner">
+		<div class="container">
+			<div data-form="ui-body-a" id="contactSection" data-theme="a" class="ui-body ui-body-a ui-corner-all">
+				<div  id="top" class="callbacks_container">
+					<ul class="rslides" id="slider3">       
+						<li>
+							<div class="banner-textagileinfo">
+								<h6>Find your dog by</h6>	 
+								<h3>Breeds</h3>	 
+								<div class="more">
+									<a href="#" data-toggle="modal" data-target="#myModal"> Click here</a>
+								</div>	
+							</div>	
+						</li>
+						<li>
+							<div class="banner-textagileinfo"> 
+								<h6>Want to adopt a dog?</h6>	 
+								<h3>Find the shelter around you </h3>	
+								<div class="more">
+									<a href="#" data-toggle="modal" data-target="#myModal"> Click here</a>
+								</div>	
+							</div>	
+						</li>
+						<li>
+							<div class="banner-textagileinfo">
+								<h6>Want to know more about dogs?</h6>
+								<h3>Dog breed wiki</h3>		 	
+								<div class="more">
+									<a href="https://en.wikipedia.org/wiki/Category:Dog_breeds"> Click here</a>
+								</div>		
+							</div>		
+						</li> 
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- modal-sign -->
+	
 		<footer data-role="footer">
 			<div class="row">
 				<div class="container">
 					<div class="row twelve columns">
-					<p class="copyright">&copy; 2017 Benjamin Arehart. All rights reserved.</p>
+					<div class="modal bnr-modal fade" id="myModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+					<div class="modal-body modal-spa">
+					<img class="img-responsive" src="images/g1.jpg" alt="">
+					<img src="giphy.gif" alt="Smiley face" height="100" width="100">
+					<h3> Our Mission </h3>
+					<p>We are surrounded by many kinds of dogs every day, but do you really understand them? Do you know their breed? Their history, 
+					habits, bloodlines, etc., each is their best description. Our website is dedicated to collecting the types and information of dogs, 
+					allowing more people to understand the dog and adopting a dog that suits their environment in a certain way. </p>
+				</div> 
+			</div>
+		</div>
+	</div>
+	<!-- //modal-sign -->
+		<!-- //banner -->
+		<!-- welcome -->
+			<div class="footer-w3copy w3-agileits">
+		<p>Copyright &copy; 2019.</a></p>
+	</div>
 					</div>
 				</div>
 			</div>
