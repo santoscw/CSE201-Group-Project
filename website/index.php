@@ -106,16 +106,29 @@
 					</div>
 					<?php echo $nav; ?>
 					<?php if ($level > 0) echo $admin_nav; ?>
-					<div id="sb-search" class="sb-search">
-						<form action="doglist.php" method="post" data-ajax="false">
-							<input type="search" class="sb-search-input" name="name" placeholder="Enter your search term..." id="search" required="">
-							<a class="ui-btn ui-input-btn ui-corner-all submitProxy">Search </a>
-						</form>
-					</div>
+					
 				</div>
 			</div>
 		</header>
-
+		<div class="container">
+			<form action="doglist.php" method="post" data-ajax="false">
+				<div class="five columns">
+					<div id="sb-search" class="sb-search">
+							<input type="search" class="sb-search-input" name="name" placeholder="Enter your search term..." id="search" required="">
+					</div>
+				</div>
+				<div class="five columns">
+					<select name="db">
+						<option value="dog">Dog</option>
+						<option value="breed">Breed</option>
+						<option value="shelter">Shelter</option>
+					</select>
+				</div>
+				<div class="two columns">
+					<a class="ui-btn ui-input-btn ui-corner-all submitProxy">Search </a>
+				</div>
+			</form>
+		</div>
 		<div class="container">
 			<div data-form="ui-body-a" id="contactSection" data-theme="a" class="ui-body ui-body-a ui-corner-all">
 				<form data-form="ui-body-a" id="contactForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" data-ajax="false">

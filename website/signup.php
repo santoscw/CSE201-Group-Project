@@ -76,7 +76,7 @@
 			});
 			
 		</script>
-
+		
 	</head>
 	<body>
 		<div id="registerPage" data-role="page" data-theme="a" class="ui-page-header-fixed ui-page-footer-fixed" data-title="Register">
