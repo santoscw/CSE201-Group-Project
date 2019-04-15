@@ -33,17 +33,19 @@
 	
 	$target = $_POST['entry'];
 	
-	$query  = "SELECT * FROM dog WHERE id = $target";
+	$query  = "SELECT * FROM dog WHERE id = '$target'";
 	$result = queryData($query);
 	if (!$result) die($data->error);
 	$rows = $result->num_rows;
 	$outputtable = null;
-		$row = $result->fetch_array(MYSQLI_ASSOC);
-		$documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]); //		<td>{$row['section']}</td>
-		$outputrow = <<<_STRING
+	$row = $result->fetch_array(MYSQLI_ASSOC);
+	$documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]);
+	$outputrow = <<<_STRING
 		<tr>
-		<td>{$row['name']}</td>
-		<td><img src="{$row['image']}"></img></td>
+			<td>{$row['name']}</td>
+			<td>{$row['section']}</td>
+			<td>{$row['country']}</td>
+			<td><img src="{$row['image']}"></img></td>
 		</tr>
 _STRING;
 		$outputtable = $outputtable . $outputrow;
@@ -76,8 +78,9 @@ _STRING;
 				<thead>
 					<tr>
 						<th>Name</th>
+						<th>Section</th>
+						<th>Country</th>
 						<th data-priority="2">Image</th>
-						<th data-priority="1">Look at</th>
 					</tr>
 				</thead>
 				<tbody>

@@ -4,6 +4,9 @@
 	$commentsactive = null;
 	$breedlistactive = null;
 	
+	$name2Err = $sectionErr = $countryErr = $imageErr = null;
+
+	
 	session_start();
 	$username = null;
 	if (isset($_POST['logout'])) {
@@ -30,6 +33,42 @@
 	else header("Location: login.php");
 	
 	require_once 'phpimports/admin_nav.php';
+	
+	if (isset($_POST['breed'])) 
+	{
+		$name_temp = mysql_sanitize_db_input_info($_POST['name2']);
+		$section_temp = mysql_sanitize_db_input_info($_POST['section']);
+		$country_temp = mysql_sanitize_db_input_info($_POST['country']);
+		$image_temp = mysql_sanitize_db_input_info($_POST['image']);
+		
+		if ($_SERVER['REQUEST_METHOD'] == "POST" && $name_temp == null)
+		{
+			$name2Err = "*Required";
+		}
+		if ($_SERVER['REQUEST_METHOD'] == "POST" && $section_temp == null)
+		{
+			$sectionErr = "*Required";
+		}
+		if ($_SERVER['REQUEST_METHOD'] == "POST" && $country_temp == null)
+		{
+			$countryErr = "*Required";
+		}
+		if ($_SERVER['REQUEST_METHOD'] == "POST" && $image_temp == null)
+		{
+			$imageErr = "*Required";
+		}
+		if ($nameErr == null && $sectionErr == null && $countryErr == null && $imageErr == null) {
+			
+			$query = "INSERT INTO dog (name, section, country, image) VALUES ('$name_temp', '$section_temp', '$country_temp', '$image_temp')";
+			$result = queryData($query);
+			
+			if (!$result) die($data->error);
+			else
+			{
+				$submitmsg = "<p class='submit'>Thanks for the comment!</p>";
+			}
+		}
+	}
 	/*
 	function upload() {
 		if ($_POST['title'] == null || !isset($_POST['gallery'])) {
@@ -133,7 +172,54 @@
 				-->
 		</header>
 		<div id="mainArea" data-form="ui-page-theme-a" class="ui-content">
-			Login successful!
+			<div class="container">
+			<div data-form="ui-body-a" id="breedForm" data-theme="a" class="ui-body ui-body-a ui-corner-all">
+				<form data-form="ui-body-a" id="breedForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" data-ajax="false">
+					<div class="row">
+						<div class="container">
+							<div class="twelve columns">
+								<h2 class="title">Add entry</h2>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="container">
+							<div class="twelve columns">
+								<div data-form="ui-body-a" class="ui-li-static ui-field-contain">
+									<label for="name2">Name: </label>
+									<input type="text" name="name2" data-mini="true" autofocus />
+									<span class="ui-custom-inherit"><?php echo $name2Err;?></span>
+								</div>
+								<div data-form="ui-body-a" class="ui-li-static ui-field-contain">
+									<label for="section">Section: </label>
+									<input type="text" name="section" data-mini="true" />
+									<span class="ui-custom-inherit"><?php echo $sectionErr;?></span>
+								</div>
+								<div data-form="ui-body-a" class="ui-li-static ui-field-contain">
+									<label for="country">Country: </label>
+									<input type="text" name="country" data-mini="true" />
+									<span class="ui-custom-inherit"><?php echo $countryErr;?></span>
+								</div>
+								<div data-form="ui-body-a" class="ui-li-static ui-field-contain">
+									<label for="image">Image Link: </label>
+									<input type="text" name="image" data-mini="true" />
+									<span class="ui-custom-inherit"><?php echo $imageErr;?></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="container">
+							<div class="twelve columns">
+								<input type="hidden" name="breed" value="yes" />
+								<a class="ui-btn ui-input-btn ui-btn-icon-right ui-icon-comment ui-corner-all submitProxy" data-form="ui-btn-up-a">Submit</a>
+								
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
 		</div>
 	</body>
 </html>			

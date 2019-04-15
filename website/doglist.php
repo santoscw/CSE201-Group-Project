@@ -32,7 +32,7 @@
 	if (isset($_POST['name'])) {
 		$name = mysql_sanitize_db_input_info($_POST['name']);
 		$query  = "SELECT * FROM dog WHERE name LIKE '%$name%' ORDER BY `name` ASC";
-		} else {
+	} else {
 		$query  = "SELECT * FROM dog ORDER BY `name` ASC";
 	}
 	$result = queryData($query);
