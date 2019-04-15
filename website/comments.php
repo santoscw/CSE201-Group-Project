@@ -27,9 +27,10 @@
 		$level = $_SESSION['level'];
 		$loggedin = TRUE;
 	}
-	else header("Location: login.php");
+	else header("Location: index.php");
 	
 	require_once 'phpimports/admin_nav.php';
+	
 	if (isset($_POST['delete'])) 
 	{
 		$delete_target = $_POST['delete'];

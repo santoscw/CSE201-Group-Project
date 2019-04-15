@@ -2,6 +2,8 @@
 	require_once 'phpimports/header.php';
 	
 	$nameErr = $emailErr = $commentsErr = $submitmsg = $error = $level = $username = $loggedin = null;
+
+	// session code
 	session_start();
 	if (isset($_POST['logout'])) {
 		session_unset();
@@ -25,6 +27,7 @@
 		$level = $_SESSION['level'];
 		$loggedin = TRUE;
 	}
+	// -- session code
 
 
 	$homeactive = "ui-btn-active ui-state-persist";
