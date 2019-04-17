@@ -1,44 +1,42 @@
 <?php
-	require_once 'phpimports/header.php';
-	
-	$un_temp = $usernameErr = $passwordErr = $error = null;
-	
-	if (isset($_POST['username']) && isset($_POST['password']))
-	{
-		$un_temp = mysql_sanitize_db_input_info($_POST['username']);
-		$token = mysql_sanitize_password($_POST['password']);
-		
-		$query  = "SELECT * FROM user WHERE username='$un_temp'";
-		$result = queryUser($query);
-		if (!$result) die($connection->error);
-		elseif ($result->num_rows) 
-		{
-			$row = $result->fetch_array(MYSQLI_NUM);
-			
-			$result->close();
-			
-			if (password_verify($token, $row[3]))
-			{
-				session_start();
-				$_SESSION['username'] = $un_temp;
-				$_SESSION['level'] = $row[4];
-				header("Location: index.php");
-			}
-			else $error = "<li data-form='ui-body-a'><pre class='ui-custom-inherit'>Username or password is incorrect</pre></li>";
-		}
-		else $error = "<li data-form='ui-body-a'><pre class='ui-custom-inherit'>Username or password is incorrect</pre></li>";
-		if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['username'] == null)
-		{
-			$usernameErr = "*Required";
-			$error = null;
-		}
-		if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['password'] == null) 
-		{
-			$passwordErr = "*Required";
-			$error = null;
-		}
-	} 
-	closeConnection();
+    require_once 'phpimports/header.php';
+    
+    $un_temp = $usernameErr = $passwordErr = $error = null;
+    
+    if (isset($_POST['username']) && isset($_POST['password'])) {
+        $un_temp = mysql_sanitize_db_input_info($_POST['username']);
+        $token = mysql_sanitize_password($_POST['password']);
+        
+        $query  = "SELECT * FROM user WHERE username='$un_temp'";
+        $result = queryUser($query);
+        if (!$result) {
+            die($connection->error);
+        } elseif ($result->num_rows) {
+            $row = $result->fetch_array(MYSQLI_NUM);
+            
+            $result->close();
+            
+            if (password_verify($token, $row[3])) {
+                session_start();
+                $_SESSION['username'] = $un_temp;
+                $_SESSION['level'] = $row[4];
+                header("Location: index.php");
+            } else {
+                $error = "<li data-form='ui-body-a'><pre class='ui-custom-inherit'>Username or password is incorrect</pre></li>";
+            }
+        } else {
+            $error = "<li data-form='ui-body-a'><pre class='ui-custom-inherit'>Username or password is incorrect</pre></li>";
+        }
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['username'] == null) {
+            $usernameErr = "*Required";
+            $error = null;
+        }
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['password'] == null) {
+            $passwordErr = "*Required";
+            $error = null;
+        }
+    }
+    closeConnection();
 ?>
 <!DOCTYPE html>
 <html>

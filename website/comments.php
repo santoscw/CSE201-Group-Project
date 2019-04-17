@@ -1,55 +1,57 @@
 <?php
-	require_once 'phpimports/header.php';
-	$ahomeactive = null;
-	$commentsactive = "ui-btn-active ui-state-persist";
-	$breedlistactive = null;
-	
-	session_start();
-	$username = null;
-	if (isset($_POST['logout'])) {
-		session_unset();
-		if (ini_get("session.use_cookies")) {
-			$params = session_get_cookie_params();
-			setcookie(session_name(), '', time() - 42000);
-		}
-	    session_destroy();
-		header('Location: index.php');
-		exit();
-	}
-	if (!isset($_SESSION['initiated']))
-	{
-		session_regenerate_id();
-		$_SESSION['initiated'] = 1;
-	}
-	if (isset($_SESSION['username']) && isset($_SESSION['level']) && $_SESSION['level'] > 0)
-	{
-		$username = $_SESSION['username'];
-		$level = $_SESSION['level'];
-		$loggedin = TRUE;
-	}
-	else header("Location: index.php");
-	
-	require_once 'phpimports/admin_nav.php';
-	
-	if (isset($_POST['delete'])) 
-	{
-		$delete_target = $_POST['delete'];
-		$query = "DELETE FROM comments WHERE `uid`='$delete_target'";
-		$result = queryUser($query);
-		if (!$result) die($connection->error);
-		else $deletemsg = "Successfully deleted.";
-	}
-	$query  = "SELECT * FROM comments ORDER BY `uid` ASC";
-	$result = queryUser($query);
-	if (!$result) die($connection->error);
-	$rows = $result->num_rows;
-	$outputtable = $popuplist = null;
-	for ($j = 0; $j < $rows; ++$j)
-	{
-		$result->data_seek($j);
-		$row = $result->fetch_array(MYSQLI_ASSOC);
-		$documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]);
-		$outputrow = <<<_STRING
+    require_once 'phpimports/header.php';
+    $ahomeactive = null;
+    $commentsactive = "ui-btn-active ui-state-persist";
+    $breedlistactive = null;
+    
+    session_start();
+    $username = null;
+    if (isset($_POST['logout'])) {
+        session_unset();
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000);
+        }
+        session_destroy();
+        header('Location: index.php');
+        exit();
+    }
+    if (!isset($_SESSION['initiated'])) {
+        session_regenerate_id();
+        $_SESSION['initiated'] = 1;
+    }
+    if (isset($_SESSION['username']) && isset($_SESSION['level']) && $_SESSION['level'] > 0) {
+        $username = $_SESSION['username'];
+        $level = $_SESSION['level'];
+        $loggedin = true;
+    } else {
+        header("Location: index.php");
+    }
+    
+    require_once 'phpimports/admin_nav.php';
+    
+    if (isset($_POST['delete'])) {
+        $delete_target = $_POST['delete'];
+        $query = "DELETE FROM comments WHERE `uid`='$delete_target'";
+        $result = queryUser($query);
+        if (!$result) {
+            die($connection->error);
+        } else {
+            $deletemsg = "Successfully deleted.";
+        }
+    }
+    $query  = "SELECT * FROM comments ORDER BY `uid` ASC";
+    $result = queryUser($query);
+    if (!$result) {
+        die($connection->error);
+    }
+    $rows = $result->num_rows;
+    $outputtable = $popuplist = null;
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        $documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]);
+        $outputrow = <<<_STRING
 		<tr>
 		<td>{$row['name']}</td>
 		<td>{$row['email']}</td>
@@ -60,7 +62,7 @@
 		</td>
 		</tr>
 _STRING;
-		$popupentry = <<<_POPUP
+        $popupentry = <<<_POPUP
 		<div data-role="popup" id="confirm{$row['uid']}" data-theme="a" class="ui-corner-all ui-popup ui-body-a">
 		<div data-role="header" data-theme="a" class="ui-corner-top ui-header ui-bar-a" role="banner">
 		<h1 class="ui-title">Are you sure?</h1>
@@ -76,10 +78,10 @@ _STRING;
 		</div>
 		</div>
 _POPUP;
-		$outputtable = $outputtable . $outputrow;
-		$popuplist = $popuplist . $popupentry;
-	}
-	$result->close();
+        $outputtable = $outputtable . $outputrow;
+        $popuplist = $popuplist . $popupentry;
+    }
+    $result->close();
 ?>
 <!DOCTYPE html>
 <html>

@@ -1,78 +1,69 @@
 <?php
-	require_once 'phpimports/header.php';
-	
-	$nameErr = $emailErr = $commentsErr = $submitmsg = $error = $level = $username = $loggedin = null;
+    require_once 'phpimports/header.php';
+    
+    $nameErr = $emailErr = $commentsErr = $submitmsg = $error = $level = $username = $loggedin = null;
 
-	// session code
-	session_start();
-	if (isset($_POST['logout'])) {
-		session_unset();
-		if (ini_get("session.use_cookies")) {
-			$params = session_get_cookie_params();
-			setcookie(session_name(), '', time() - 42000);
-		}
-	    session_destroy();
-		header('Location: index.php');
-		exit();
-	}
+    // session code
+    session_start();
+    if (isset($_POST['logout'])) {
+        session_unset();
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000);
+        }
+        session_destroy();
+        header('Location: index.php');
+        exit();
+    }
 
-	if (!isset($_SESSION['initiated']))
-	{
-		session_regenerate_id();
-		$_SESSION['initiated'] = 1;
-	}
-	if (isset($_SESSION['username']) && isset($_SESSION['level']))
-	{
-		$username = $_SESSION['username'];
-		$level = $_SESSION['level'];
-		$loggedin = TRUE;
-	}
-	// -- session code
+    if (!isset($_SESSION['initiated'])) {
+        session_regenerate_id();
+        $_SESSION['initiated'] = 1;
+    }
+    if (isset($_SESSION['username']) && isset($_SESSION['level'])) {
+        $username = $_SESSION['username'];
+        $level = $_SESSION['level'];
+        $loggedin = true;
+    }
+    // -- session code
 
 
-	$homeactive = "ui-btn-active ui-state-persist";
-	$ahomeactive = null;
-	$commentsactive = null;
-	$breedlistactive = null;
-	require_once 'phpimports/admin_nav.php';
+    $homeactive = "ui-btn-active ui-state-persist";
+    $ahomeactive = null;
+    $commentsactive = null;
+    $breedlistactive = null;
+    require_once 'phpimports/admin_nav.php';
 
 
-	if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['comments'])) 
-	{
-		$name_temp = mysql_sanitize_db_input_info($_POST['name']);
-		$email_temp = mysql_sanitize_db_input_info($_POST['email']);
-		$comment_temp = mysql_sanitize_db_input_info($_POST['comments']);
-		
-		if ($_SERVER['REQUEST_METHOD'] == "POST" && $name_temp == null)
-		{
-			$nameErr = "*Required";
-		}
-		if ($_SERVER['REQUEST_METHOD'] == "POST" && $email_temp == null)
-		{
-			$emailErr = "*Required";
-		}
-		elseif (!filter_var($email_temp, FILTER_VALIDATE_EMAIL)) 
-		{
-			$emailErr = "Invalid address";
-		}
-		if ($_SERVER['REQUEST_METHOD'] == "POST" && $comment_temp == null)
-		{
-			$commentsErr = "*Required";
-		}
-		if ($nameErr == null && $emailErr == null && $commentsErr == null ) {
-			
-			$query = "INSERT INTO comments (name, email, comment) VALUES ('$name_temp', '$email_temp', '$comment_temp')";
-			$result = queryUser($query);
-			
-			if (!$result) die($connection->error);
-			else
-			{
-				$submitmsg = "<p class='submit'>Thanks for the comment!</p>";
-			}
-		}
-	}
-	closeConnection();
-	
+    if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['comments'])) {
+        $name_temp = mysql_sanitize_db_input_info($_POST['name']);
+        $email_temp = mysql_sanitize_db_input_info($_POST['email']);
+        $comment_temp = mysql_sanitize_db_input_info($_POST['comments']);
+        
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && $name_temp == null) {
+            $nameErr = "*Required";
+        }
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && $email_temp == null) {
+            $emailErr = "*Required";
+        } elseif (!filter_var($email_temp, FILTER_VALIDATE_EMAIL)) {
+            $emailErr = "Invalid address";
+        }
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && $comment_temp == null) {
+            $commentsErr = "*Required";
+        }
+        if ($nameErr == null && $emailErr == null && $commentsErr == null) {
+            $query = "INSERT INTO comments (name, email, comment) VALUES ('$name_temp', '$email_temp', '$comment_temp')";
+            $result = queryUser($query);
+            
+            if (!$result) {
+                die($connection->error);
+            } else {
+                $submitmsg = "<p class='submit'>Thanks for the comment!</p>";
+            }
+        }
+    }
+    closeConnection();
+    
 
 ?>
 <!DOCTYPE html>
@@ -103,7 +94,9 @@
 						<p class="logomain">Dog Database</p>
 					</div>
 					<?php echo $nav; ?>
-					<?php if ($level > 0) echo $admin_nav; ?>
+					<?php if ($level > 0) {
+    echo $admin_nav;
+} ?>
 					
 				</div>
 			</div>
@@ -164,10 +157,12 @@
 								
 							</div>
 							<?php
-									if ($submitmsg != null) { ?>
+                                    if ($submitmsg != null) {
+                                        ?>
 										<p class='submit'>Thanks for the comment!</p>
-							<?php		}
-								?>
+							<?php
+                                    }
+                                ?>
 						</div>
 					</div>
 				</form>

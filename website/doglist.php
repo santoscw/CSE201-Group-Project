@@ -1,50 +1,49 @@
 <?php
-	require_once 'phpimports/header.php';
-	$ahomeactive = null;
-	$commentsactive = null;
-	$breedlistactive = "ui-btn-active ui-state-persist";
-	
-	session_start();
-	$username = $deletemsg = null;
-	if (isset($_POST['logout'])) {
-		session_unset();
-		if (ini_get("session.use_cookies")) {
-			$params = session_get_cookie_params();
-			setcookie(session_name(), '', time() - 42000);
-		}
-	    session_destroy();
-		header('Location: index.php');
-		exit();
-	}
-	if (!isset($_SESSION['initiated']))
-	{
-		session_regenerate_id();
-		$_SESSION['initiated'] = 1;
-	}
-	if (isset($_SESSION['username']) && isset($_SESSION['level']) && $_SESSION['level'] >= 0)
-	{
-		$username = $_SESSION['username'];
-		$level = $_SESSION['level'];
-		$loggedin = TRUE;
-	}	
-	require_once 'phpimports/admin_nav.php';
-	
-	if (isset($_POST['name'])) {
-		$name = mysql_sanitize_db_input_info($_POST['name']);
-		$query  = "SELECT * FROM dog WHERE name LIKE '%$name%' ORDER BY `name` ASC";
-	} else {
-		$query  = "SELECT * FROM dog ORDER BY `name` ASC";
-	}
-	$result = queryData($query);
-	if (!$result) die($data->error);
-	$rows = $result->num_rows;
-	$outputtable = null;
-	for ($j = 0; $j < $rows; ++$j)
-	{
-		$result->data_seek($j);
-		$row = $result->fetch_array(MYSQLI_ASSOC);
-		$documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]); //		<td>{$row['section']}</td>
-		$outputrow = <<<_STRING
+    require_once 'phpimports/header.php';
+    $ahomeactive = null;
+    $commentsactive = null;
+    $breedlistactive = "ui-btn-active ui-state-persist";
+    
+    session_start();
+    $username = $deletemsg = null;
+    if (isset($_POST['logout'])) {
+        session_unset();
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000);
+        }
+        session_destroy();
+        header('Location: index.php');
+        exit();
+    }
+    if (!isset($_SESSION['initiated'])) {
+        session_regenerate_id();
+        $_SESSION['initiated'] = 1;
+    }
+    if (isset($_SESSION['username']) && isset($_SESSION['level']) && $_SESSION['level'] >= 0) {
+        $username = $_SESSION['username'];
+        $level = $_SESSION['level'];
+        $loggedin = true;
+    }
+    require_once 'phpimports/admin_nav.php';
+    
+    if (isset($_POST['name'])) {
+        $name = mysql_sanitize_db_input_info($_POST['name']);
+        $query  = "SELECT * FROM dog WHERE name LIKE '%$name%' ORDER BY `name` ASC";
+    } else {
+        $query  = "SELECT * FROM dog ORDER BY `name` ASC";
+    }
+    $result = queryData($query);
+    if (!$result) {
+        die($data->error);
+    }
+    $rows = $result->num_rows;
+    $outputtable = null;
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        $documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]); //		<td>{$row['section']}</td>
+        $outputrow = <<<_STRING
 		<tr>
 		<td>{$row['name']}</td>
 		<td><img src="{$row['image']}"></img></td>
@@ -56,9 +55,9 @@
 		</td>
 		</tr>
 _STRING;
-		$outputtable = $outputtable . $outputrow;
-	}
-	$result->close();
+        $outputtable = $outputtable . $outputrow;
+    }
+    $result->close();
 ?>
 <!DOCTYPE html>
 <html>
@@ -79,7 +78,9 @@ _STRING;
 		<div data-role="header" class="ui-header ui-bar-inherit">
 			<h3 class="ui-title" role="heading">Database Manager</h3>
 			<?php echo $nav; ?>
-			<?php if ($level > 0) echo $admin_nav; ?>
+			<?php if ($level > 0) {
+    echo $admin_nav;
+} ?>
 			
 		</div>
 		<header class="main_nav">

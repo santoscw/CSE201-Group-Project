@@ -1,142 +1,135 @@
 <?php
-	require_once 'phpimports/header.php';
-	
-	$name2Err = $sectionErr = $countryErr = $imageErr = null;
+    require_once 'phpimports/header.php';
+    
+    $name2Err = $sectionErr = $countryErr = $imageErr = null;
 
-	
-	session_start();
-	$username = null;
-	if (isset($_POST['logout'])) {
-		session_unset();
-		if (ini_get("session.use_cookies")) {
-			$params = session_get_cookie_params();
-			setcookie(session_name(), '', time() - 42000);
-		}
-	    session_destroy();
-		header('Location: index.php');
-		exit();
-	}
-	if (!isset($_SESSION['initiated']))
-	{
-		session_regenerate_id();
-		$_SESSION['initiated'] = 1;
-	}
-	if (isset($_SESSION['username']) && isset($_SESSION['level']) && $_SESSION['level'] > 0)
-	{
-		$username = $_SESSION['username'];
-		$level = $_SESSION['level'];
-		$loggedin = TRUE;
-	}
-	else header("Location: index.php");
-	
-	$ahomeactive = "ui-btn-active ui-state-persist";
-	require_once 'phpimports/admin_nav.php';
-	
-	if (isset($_POST['breed'])) 
-	{
-		$name_temp = mysql_sanitize_db_input_info($_POST['name2']);
-		$section_temp = mysql_sanitize_db_input_info($_POST['section']);
-		$country_temp = mysql_sanitize_db_input_info($_POST['country']);
-		$image_temp = mysql_sanitize_db_input_info($_POST['image']);
-		
-		if ($_SERVER['REQUEST_METHOD'] == "POST" && $name_temp == null)
-		{
-			$name2Err = "*Required";
-		}
-		if ($_SERVER['REQUEST_METHOD'] == "POST" && $section_temp == null)
-		{
-			$sectionErr = "*Required";
-		}
-		if ($_SERVER['REQUEST_METHOD'] == "POST" && $country_temp == null)
-		{
-			$countryErr = "*Required";
-		}
-		if ($_SERVER['REQUEST_METHOD'] == "POST" && $image_temp == null)
-		{
-			$imageErr = "*Required";
-		}
-		if ($nameErr == null && $sectionErr == null && $countryErr == null && $imageErr == null) {
-			
-			$query = "INSERT INTO dog (name, section, country, image) VALUES ('$name_temp', '$section_temp', '$country_temp', '$image_temp')";
-			$result = queryData($query);
-			
-			if (!$result) die($data->error);
-			else
-			{
-				$submitmsg = "<p class='submit'>Breed added.</p>";
-			}
-		}
-	}
-	/*
-	function upload() {
-		if ($_POST['title'] == null || !isset($_POST['gallery'])) {
-			$msg = "<p>Please fill out all fields and selections.</p>";
-		}
-		else {
-			$maxsize = 10000000; 
-			if($_FILES['userfile']['error']==UPLOAD_ERR_OK) {
-				if(is_uploaded_file($_FILES['userfile']['tmp_name'])) {    
-					if( $_FILES['userfile']['size'] < $maxsize) {  
-						$finfo = finfo_open(FILEINFO_MIME_TYPE);
-						if(strpos(finfo_file($finfo, $_FILES['userfile']['tmp_name']),"image")===0) {    
-							$imgData = addslashes(file_get_contents($_FILES['userfile']['tmp_name']));
-							$title = mysql_sanitize_db_input_info($_POST['title']);
-							if ($_POST['gallery'] == "bracelets") {
-								$gallery = "bracelets";
-							}
-							else if ($_POST['gallery'] == "necklaces") {
-								$gallery = "necklaces";
-							}
-							else if ($_POST['gallery'] == "pendants") {
-								$gallery = "pendants";
-							}							
-							$query = "INSERT INTO $gallery (name, image) VALUES ('$title', '$imgData');";
-							$result = queryMysql($query);
-							if (!$result) die($connection->error);
-							else {
-								$msg='<p>Image successfully saved in database</p>';
-							}
-						}
-						else $msg="<p>Uploaded file is not an image.</p>";
-					}
-					else {
-						$msg='<div>File exceeds the Maximum File limit</div>
-						<div>Maximum File limit is '.$maxsize.' bytes</div>
-						<div>File '.$_FILES['userfile']['name'].' is '.$_FILES['userfile']['size'].
-						' bytes</div><hr />';
-					}
-				}
-				else
-				$msg="File not uploaded successfully.";
-			}
-			else {
-				$msg= file_upload_error_message($_FILES['userfile']['error']);
-			}
-		}
-		return $msg;
-	}
-	function file_upload_error_message($error_code) {
-		switch ($error_code) {
-			case UPLOAD_ERR_INI_SIZE:
-			return 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
-			case UPLOAD_ERR_FORM_SIZE:
-			return 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
-			case UPLOAD_ERR_PARTIAL:
-			return 'The uploaded file was only partially uploaded';
-			case UPLOAD_ERR_NO_FILE:
-			return 'No file was uploaded';
-			case UPLOAD_ERR_NO_TMP_DIR:
-			return 'Missing a temporary folder';
-			case UPLOAD_ERR_CANT_WRITE:
-			return 'Failed to write file to disk';
-			case UPLOAD_ERR_EXTENSION:
-			return 'File upload stopped by extension';
-			default:
-			return 'Unknown upload error';
-		}
-	}
-	*/
-	
+    
+    session_start();
+    $username = null;
+    if (isset($_POST['logout'])) {
+        session_unset();
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000);
+        }
+        session_destroy();
+        header('Location: index.php');
+        exit();
+    }
+    if (!isset($_SESSION['initiated'])) {
+        session_regenerate_id();
+        $_SESSION['initiated'] = 1;
+    }
+    if (isset($_SESSION['username']) && isset($_SESSION['level']) && $_SESSION['level'] > 0) {
+        $username = $_SESSION['username'];
+        $level = $_SESSION['level'];
+        $loggedin = true;
+    } else {
+        header("Location: index.php");
+    }
+    
+    $ahomeactive = "ui-btn-active ui-state-persist";
+    require_once 'phpimports/admin_nav.php';
+    
+    if (isset($_POST['breed'])) {
+        $name_temp = mysql_sanitize_db_input_info($_POST['name2']);
+        $section_temp = mysql_sanitize_db_input_info($_POST['section']);
+        $country_temp = mysql_sanitize_db_input_info($_POST['country']);
+        $image_temp = mysql_sanitize_db_input_info($_POST['image']);
+        
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && $name_temp == null) {
+            $name2Err = "*Required";
+        }
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && $section_temp == null) {
+            $sectionErr = "*Required";
+        }
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && $country_temp == null) {
+            $countryErr = "*Required";
+        }
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && $image_temp == null) {
+            $imageErr = "*Required";
+        }
+        if ($nameErr == null && $sectionErr == null && $countryErr == null && $imageErr == null) {
+            $query = "INSERT INTO dog (name, section, country, image) VALUES ('$name_temp', '$section_temp', '$country_temp', '$image_temp')";
+            $result = queryData($query);
+            
+            if (!$result) {
+                die($data->error);
+            } else {
+                $submitmsg = "<p class='submit'>Breed added.</p>";
+            }
+        }
+    }
+    /*
+    function upload() {
+        if ($_POST['title'] == null || !isset($_POST['gallery'])) {
+            $msg = "<p>Please fill out all fields and selections.</p>";
+        }
+        else {
+            $maxsize = 10000000;
+            if($_FILES['userfile']['error']==UPLOAD_ERR_OK) {
+                if(is_uploaded_file($_FILES['userfile']['tmp_name'])) {
+                    if( $_FILES['userfile']['size'] < $maxsize) {
+                        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                        if(strpos(finfo_file($finfo, $_FILES['userfile']['tmp_name']),"image")===0) {
+                            $imgData = addslashes(file_get_contents($_FILES['userfile']['tmp_name']));
+                            $title = mysql_sanitize_db_input_info($_POST['title']);
+                            if ($_POST['gallery'] == "bracelets") {
+                                $gallery = "bracelets";
+                            }
+                            else if ($_POST['gallery'] == "necklaces") {
+                                $gallery = "necklaces";
+                            }
+                            else if ($_POST['gallery'] == "pendants") {
+                                $gallery = "pendants";
+                            }
+                            $query = "INSERT INTO $gallery (name, image) VALUES ('$title', '$imgData');";
+                            $result = queryMysql($query);
+                            if (!$result) die($connection->error);
+                            else {
+                                $msg='<p>Image successfully saved in database</p>';
+                            }
+                        }
+                        else $msg="<p>Uploaded file is not an image.</p>";
+                    }
+                    else {
+                        $msg='<div>File exceeds the Maximum File limit</div>
+                        <div>Maximum File limit is '.$maxsize.' bytes</div>
+                        <div>File '.$_FILES['userfile']['name'].' is '.$_FILES['userfile']['size'].
+                        ' bytes</div><hr />';
+                    }
+                }
+                else
+                $msg="File not uploaded successfully.";
+            }
+            else {
+                $msg= file_upload_error_message($_FILES['userfile']['error']);
+            }
+        }
+        return $msg;
+    }
+    function file_upload_error_message($error_code) {
+        switch ($error_code) {
+            case UPLOAD_ERR_INI_SIZE:
+            return 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+            case UPLOAD_ERR_FORM_SIZE:
+            return 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+            case UPLOAD_ERR_PARTIAL:
+            return 'The uploaded file was only partially uploaded';
+            case UPLOAD_ERR_NO_FILE:
+            return 'No file was uploaded';
+            case UPLOAD_ERR_NO_TMP_DIR:
+            return 'Missing a temporary folder';
+            case UPLOAD_ERR_CANT_WRITE:
+            return 'Failed to write file to disk';
+            case UPLOAD_ERR_EXTENSION:
+            return 'File upload stopped by extension';
+            default:
+            return 'Unknown upload error';
+        }
+    }
+    */
+    
 ?>
 <!DOCTYPE html>
 <html>
