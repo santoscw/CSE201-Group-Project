@@ -1,8 +1,6 @@
 <?php 
 
 require_once 'phpimports/header.php';
-$ahomeactive = null;
-$commentsactive = null;
 $breedlistactive = "ui-btn-active ui-state-persist";
 
 session_start();
@@ -107,7 +105,6 @@ $result->close();
         </div>
     </header>
     <div id="mainArea" data-form="ui-page-theme-a" class="ui-content">
-        <?php echo $deletemsg; ?>
         <table data-role="table" id="commentsTable" data-mode="columntoggle"
             class="ui-responsive ui-table ui-corner-all">
             <thead>
