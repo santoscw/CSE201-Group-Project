@@ -1,8 +1,6 @@
 <?php
     require_once 'phpimports/header.php';
-    $ahomeactive = null;
     $commentsactive = "ui-btn-active ui-state-persist";
-    $breedlistactive = null;
     
     session_start();
     $username = null;

@@ -1,6 +1,8 @@
 <?php 
 
 require_once 'phpimports/header.php';
+require_once 'phpimports/search_class.php';
+
 $breedlistactive = "ui-btn-active ui-state-persist";
 
 session_start();
@@ -29,35 +31,11 @@ require_once 'phpimports/admin_nav.php';
 if (isset($_POST['name'])) {
     $name = mysql_sanitize_db_input_info($_POST['name']);
     $target = mysql_sanitize_db_input_info($_POST['db']);
-    $query  = "SELECT * FROM $target WHERE name LIKE '%$name%' ORDER BY `name` ASC";
-} else {
-    $query  = "SELECT * FROM dog ORDER BY `name` ASC";
+    $column = mysql_sanitize_db_input_info($_POST['column']);
+
+    $search = new Search($target, $column, $name);
+    $outputtable = $search->Query();
 }
-$result = queryUser($query);
-if (!$result) {
-    die($data->error);
-}
-$rows = $result->num_rows;
-$outputtable = null;
-for ($j = 0; $j < $rows; ++$j) {
-    $result->data_seek($j);
-    $row = $result->fetch_array(MYSQLI_ASSOC);
-    $documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]);
-    $outputrow = <<<_STRING
-    <tr>
-    <td>{$row['name']}</td>
-    <td><img src="{$row['image']}"></img></td>
-    <td>
-    <form data-form="ui-body-a" method="post" action="breed.php" data-ajax="false">
-    <input type="hidden" value="{$row['id']}" name="entry" />
-    <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Look At</a>
-    </form>
-    </td>
-    </tr>
-_STRING;
-    $outputtable = $outputtable . $outputrow;
-}
-$result->close();
 ?>
 <!DOCTYPE html>
 <html>
@@ -84,7 +62,7 @@ $result->close();
     </div>
     <header class="main_nav">
         <div class="container">
-            <form action="doglist.php" method="post" data-ajax="false">
+            <form action="results.php" method="post" data-ajax="false">
                 <div class="five columns">
                     <div id="sb-search" class="sb-search">
                         <input type="search" class="sb-search-input" name="name" placeholder="Enter your search term..."
@@ -98,6 +76,7 @@ $result->close();
                         <option value="shelter">Shelter</option>
                     </select>
                 </div>
+                <input type="hidden" name="column" value="name" />
                 <div class="two columns">
                     <a class="ui-btn ui-input-btn ui-corner-all submitProxy">Search </a>
                 </div>
@@ -105,19 +84,7 @@ $result->close();
         </div>
     </header>
     <div id="mainArea" data-form="ui-page-theme-a" class="ui-content">
-        <table data-role="table" id="commentsTable" data-mode="columntoggle"
-            class="ui-responsive ui-table ui-corner-all">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th data-priority="2">Image</th>
-                    <th data-priority="1">Look at</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php echo $outputtable; ?>
-            </tbody>
-        </table>
+        <?php echo $outputtable; ?>
     </div>
 </body>
 

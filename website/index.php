@@ -27,11 +27,7 @@
     }
     // -- session code
 
-
-    $homeactive = "ui-btn-active ui-state-persist";
-    $ahomeactive = null;
-    $commentsactive = null;
-    $breedlistactive = null;
+		$homeactive = "ui-btn-active ui-state-persist";
     require_once 'phpimports/admin_nav.php';
 
 

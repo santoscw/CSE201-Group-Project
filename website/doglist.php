@@ -1,7 +1,5 @@
 <?php
     require_once 'phpimports/header.php';
-    $ahomeactive = null;
-    $commentsactive = null;
     $breedlistactive = "ui-btn-active ui-state-persist";
     
     session_start();
