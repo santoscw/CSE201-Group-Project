@@ -269,15 +269,15 @@ _STRING;
         } else if ($this->table == "shelter") {
             $outputtable = <<<_STRING
             <table data-role="table" id="searchTable" data-mode="columntoggle" class="ui-responsive ui-table ui-corner-all">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th data-priority="2">City</th>
-                    <th data-priority="3">Phone</th>
-                    <th data-priority="1">Look at</th>
-                </tr>
-            </thead>
-            <tbody>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th data-priority="2">City</th>
+                        <th data-priority="3">Phone</th>
+                        <th data-priority="1">Look at</th>
+                    </tr>
+                </thead>
+                <tbody>
 _STRING;
             for ($j = 0; $j < $rows; ++$j) {
                 $result->data_seek($j);
@@ -285,15 +285,15 @@ _STRING;
                 $documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]);
                 $outputrow = <<<_STRING
                 <tr>
-                <td>{$row['name']}</td>
-                <td>{$row['city']}</td>
-                <td>{$row['phone']}</td>
-                <td>
-                <form data-form="ui-body-a" method="post" action="shelter.php" data-ajax="false">
-                <input type="hidden" value="{$row['id']}" name="entry" />
-                <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Look At</a>
-                </form>
-                </td>
+                    <td>{$row['name']}</td>
+                    <td>{$row['city']}</td>
+                    <td>{$row['phone']}</td>
+                    <td>
+                        <form data-form="ui-body-a" method="post" action="shelter.php" data-ajax="false">
+                            <input type="hidden" value="{$row['id']}" name="entry" />
+                            <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Look At</a>
+                        </form>
+                    </td>
                 </tr>
 _STRING;
                 $outputtable = $outputtable . $outputrow;

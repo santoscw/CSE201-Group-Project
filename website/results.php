@@ -41,7 +41,7 @@ if (isset($_POST['name'])) {
 <html>
 
 <head>
-    <title>Database manager</title>
+    <title>Search</title>
     <?php echo $headerImport; ?>
     <link rel="icon" type="image/ico" href="images/favicon.ico">
     <script type="text/javascript">
@@ -56,7 +56,7 @@ if (isset($_POST['name'])) {
 
 <body>
     <div data-role="header" class="ui-header ui-bar-inherit">
-        <h3 class="ui-title" role="heading">Database Manager</h3>
+        <h3 class="ui-title" role="heading">Search</h3>
         <?php echo $nav; ?>
         <?php if ($level > 0) echo $admin_nav; ?>
     </div>
