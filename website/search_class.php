@@ -2,8 +2,6 @@
 
 require_once('functions.php');
 
-
-
 class Search {
     private $table;
     private $column;
@@ -57,7 +55,11 @@ class Search {
             switch ($this->column) {
                 case 'name':
                     $query  = <<<_STRING
-                    SELECT * 
+                    SELECT 
+                        t1.name AS name,
+                        t1.age AS age,
+                        t2.name AS breed,
+                        t3.name AS shelter 
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
@@ -66,7 +68,11 @@ _STRING;
                     break;
                 case 'breed':
                     $query  = <<<_STRING
-                    SELECT * 
+                    SELECT 
+                        t1.name AS name,
+                        t1.age AS age,
+                        t2.name AS breed,
+                        t3.name AS shelter 
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
@@ -76,7 +82,11 @@ _STRING;
                     break;
                 case 'shelter':
                     $query  = <<<_STRING
-                    SELECT * 
+                    SELECT 
+                        t1.name AS name,
+                        t1.age AS age,
+                        t2.name AS breed,
+                        t3.name AS shelter 
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
@@ -85,7 +95,11 @@ _STRING;
                     break;
                 default:
                     $query  = <<<_STRING
-                    SELECT * 
+                    SELECT 
+                        t1.name AS name,
+                        t1.age AS age,
+                        t2.name AS breed,
+                        t3.name AS shelter 
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
