@@ -59,7 +59,8 @@ class Search {
                         t1.name AS name,
                         t1.age AS age,
                         t2.name AS breed,
-                        t3.name AS shelter 
+                        t3.name AS shelter,
+                        t1.id AS id
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
@@ -72,7 +73,8 @@ _STRING;
                         t1.name AS name,
                         t1.age AS age,
                         t2.name AS breed,
-                        t3.name AS shelter 
+                        t3.name AS shelter,
+                        t1.id AS id 
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
@@ -86,7 +88,8 @@ _STRING;
                         t1.name AS name,
                         t1.age AS age,
                         t2.name AS breed,
-                        t3.name AS shelter 
+                        t3.name AS shelter,
+                        t1.id AS id 
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
@@ -99,7 +102,8 @@ _STRING;
                         t1.name AS name,
                         t1.age AS age,
                         t2.name AS breed,
-                        t3.name AS shelter 
+                        t3.name AS shelter,
+                        t1.id AS id 
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
@@ -111,21 +115,33 @@ _STRING;
             switch ($this->column) {
                 case 'name':
                     $query  = <<<_STRING
-                    SELECT *
+                    SELECT
+                        t1.name AS name,
+                        t1.image AS image,
+                        t1.type AS type,
+                        t1.id AS id
                     FROM 'breed' AS t1 
                     WHERE t1.name LIKE '%$this->term%' ORDER BY t1.name ASC LIMIT 10
 _STRING;
                     break;
                 case 'type':
                     $query  = <<<_STRING
-                    SELECT * 
+                    SELECT 
+                        t1.name AS name,
+                        t1.image AS image,
+                        t1.type AS type,
+                        t1.id AS id
                     FROM 'breed' AS t1 
                     WHERE t1.type LIKE '%$this->term%' ORDER BY t1.name ASC LIMIT 10
 _STRING;
                     break;
                 default:
                     $query  = <<<_STRING
-                    SELECT * 
+                    SELECT 
+                        t1.name AS name,
+                        t1.image AS image,
+                        t1.type AS type,
+                        t1.id AS id 
                     FROM 'breed' AS t1 
                     ORDER BY t1.name ASC LIMIT 10
 _STRING;
@@ -135,7 +151,11 @@ _STRING;
             switch ($this->column) {
                 case 'name':
                     $query  = <<<_MYSQL
-                    SELECT * 
+                    SELECT 
+                        t1.name AS name,
+                        t2.name AS city,
+                        t1.phone AS phone,
+                        t1.id AS id 
                     FROM 'shelter' AS t1 
                     LEFT JOIN 'city' AS t2 ON t1.city_id = t2.id 
                     WHERE t1.name LIKE '%$this->term%' ORDER BY t1.name ASC LIMIT 10
@@ -143,7 +163,11 @@ _MYSQL;
                     break;
                 case 'city':
                     $query  = <<<_STRING
-                    SELECT * 
+                    SELECT 
+                        t1.name AS name,
+                        t2.name AS city,
+                        t1.phone AS phone,
+                        t1.id AS id
                     FROM 'shelter' AS t1 
                     LEFT JOIN 'city' AS t2 ON t1.city_id = t2.id 
                     WHERE t2.name LIKE '%$this->term%' ORDER BY t1.name ASC LIMIT 10
@@ -152,7 +176,11 @@ _STRING;
                     break;
                 default:
                     $query  = <<<_STRING
-                    SELECT * 
+                    SELECT 
+                        t1.name AS name,
+                        t2.name AS city,
+                        t1.phone AS phone,
+                        t1.id AS id
                     FROM 'shelter' AS t1 
                     LEFT JOIN 'city' AS t2 ON t1.city_id = t2.id 
                     ORDER BY t1.name ASC LIMIT 10
@@ -166,9 +194,9 @@ _STRING;
         return $query;
     }
 
-    public function Query() {
+    public function query() {
         $query = $this->buildQuery();
-        $result = queryData("SELECT * FROM dog WHERE name LIKE '%$this->term%' LIMIT 10");
+        $result = queryData($query);
         $rows = $result->num_rows;
         if ($this->table == "dog") {
             $outputtable = <<<_STRING
@@ -176,6 +204,7 @@ _STRING;
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th data-priority="4">Age</th>
                     <th data-priority="2">Breed</th>
                     <th data-priority="3">Shelter</th>
                     <th data-priority="1">Look at</th>
@@ -189,12 +218,13 @@ _STRING;
                 $documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]);
                 $outputrow = <<<_STRING
                 <tr>
-                <td>{$row['t1.name']}</td>
-                <td>{$row['t2.name']}</td>
-                <td>{$row['t3.name']}</td>
+                <td>{$row['name']}</td>
+                <td>{$row['age']}</td>
+                <td>{$row['breed']}</td>
+                <td>{$row['shelter']}</td>
                 <td>
                 <form data-form="ui-body-a" method="post" action="dog.php" data-ajax="false">
-                <input type="hidden" value="{$row['t1.id']}" name="entry" />
+                <input type="hidden" value="{$row['id']}" name="entry" />
                 <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Look At</a>
                 </form>
                 </td>
@@ -209,7 +239,8 @@ _STRING;
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th data-priority="2">Image</th>
+                        <th data-priority="2">Image</th>
+                        <th data-priority="3">Type</th>
 						<th data-priority="1">Look at</th>
 					</tr>
 				</thead>
@@ -223,6 +254,7 @@ _STRING;
                 <tr>
                 <td>{$row['name']}</td>
                 <td><img src="{$row['image']}"></img></td>
+                <td>{$row['type']}</td>
                 <td>
                 <form data-form="ui-body-a" method="post" action="breed.php" data-ajax="false">
                 <input type="hidden" value="{$row['id']}" name="entry" />
@@ -253,12 +285,12 @@ _STRING;
                 $documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]);
                 $outputrow = <<<_STRING
                 <tr>
-                <td>{$row['t1.name']}</td>
-                <td>{$row['t2.name']}</td>
-                <td>{$row['t1.phone']}</td>
+                <td>{$row['name']}</td>
+                <td>{$row['city']}</td>
+                <td>{$row['phone']}</td>
                 <td>
                 <form data-form="ui-body-a" method="post" action="shelter.php" data-ajax="false">
-                <input type="hidden" value="{$row['t1.id']}" name="entry" />
+                <input type="hidden" value="{$row['id']}" name="entry" />
                 <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Look At</a>
                 </form>
                 </td>

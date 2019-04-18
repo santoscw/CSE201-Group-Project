@@ -34,7 +34,7 @@ if (isset($_POST['name'])) {
     $column = mysql_sanitize_db_input_info($_POST['column']);
 
     $search = new Search($target, $column, $name);
-    $outputtable = $search->Query();
+    $outputtable = $search->query();
 }
 ?>
 <!DOCTYPE html>
