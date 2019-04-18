@@ -197,6 +197,9 @@ _STRING;
     public function query() {
         $query = $this->buildQuery();
         $result = queryData($query);
+        if (!$result) {
+            die($data->error);
+        }
         $rows = $result->num_rows;
         if ($this->table == "dog") {
             $outputtable = <<<_STRING
