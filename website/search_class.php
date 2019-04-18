@@ -120,12 +120,12 @@ _STRING;
         } else if ($this->table == "shelter") {
             switch ($this->column) {
                 case 'name':
-                    $query  = <<<_STRING
+                    $query  = <<<_MYSQL
                     SELECT * 
                     FROM 'shelter' AS t1 
                     LEFT JOIN 'city' AS t2 ON t1.city_id = t2.id 
                     WHERE t1.name LIKE '%$this->term%' ORDER BY t1.name ASC LIMIT 10
-_STRING;
+_MYSQL;
                     break;
                 case 'city':
                     $query  = <<<_STRING
@@ -154,7 +154,7 @@ _STRING;
 
     public function Query() {
         $query = $this->buildQuery();
-        $result = queryData($query);
+        $result = queryData("SELECT * FROM dog WHERE name LIKE '%$this->term%' LIMIT 10");
         $rows = $result->num_rows;
         if ($this->table == "dog") {
             $outputtable = <<<_STRING
@@ -207,11 +207,11 @@ _STRING;
                 $documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]);
                 $outputrow = <<<_STRING
                 <tr>
-                <td>{$row['t1.name']}</td>
-                <td><img src="{$row['t1.image']}"></img></td>
+                <td>{$row['name']}</td>
+                <td><img src="{$row['image']}"></img></td>
                 <td>
                 <form data-form="ui-body-a" method="post" action="breed.php" data-ajax="false">
-                <input type="hidden" value="{$row['t1.id']}" name="entry" />
+                <input type="hidden" value="{$row['id']}" name="entry" />
                 <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Look At</a>
                 </form>
                 </td>
