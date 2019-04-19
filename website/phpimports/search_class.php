@@ -13,7 +13,7 @@ require_once('functions.php');
  * As of now, pagination is handled using $_offset.
  * 
  * @author      Benjamin Arehart <benjamin@arehart.com>
- * @version     v2.5.2
+ * @version     v2.5.2.2
  * @since       Class available since v2.1 of Advanced Search Utility
  */
 class Search {
