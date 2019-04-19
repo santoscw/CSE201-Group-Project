@@ -8,12 +8,12 @@ class Search {
     private $term;
     private $offset;
 
-    public function __construct($table, $column, $term) {
+    public function __construct($table, $column, $term, $offset = 0) {
         
         $this->table = $table;
         $this->column = $column;
         $this->term = $term;
-        $this->offset = 0;
+        $this->offset = $offset;
         $this->valid();
     }
 
@@ -51,9 +51,6 @@ class Search {
 
     private function buildQuery() {
         $query = $set = null;
-        if (intval($this->offset) != 0) {
-            $set = " OFFSET " . intval($this->offset);
-        }
         if ($this->table == "dog") {
             switch ($this->column) {
                 case 'name':
@@ -67,7 +64,7 @@ class Search {
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
-                    WHERE t1.name LIKE '%$this->term%' ORDER BY t1.name ASC LIMIT 10
+                    WHERE t1.name LIKE '%$this->term%' 
 _STRING;
                     break;
                 case 'breed':
@@ -81,7 +78,7 @@ _STRING;
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
-                    WHERE t2.name LIKE '%$this->term%' ORDER BY t1.name ASC LIMIT 10
+                    WHERE t2.name LIKE '%$this->term%' 
 _STRING;
 
                     break;
@@ -96,7 +93,7 @@ _STRING;
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
-                    WHERE t3.name LIKE '%$this->term%' ORDER BY t1.name ASC LIMIT 10
+                    WHERE t3.name LIKE '%$this->term%' 
 _STRING;
                     break;
                 default:
@@ -110,7 +107,6 @@ _STRING;
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
-                    ORDER BY t1.name ASC LIMIT 10
 _STRING;
                     break;
             }
@@ -118,14 +114,13 @@ _STRING;
             switch ($this->column) {
                 case 'name':
                     $query  = <<<_STRING
-SELECT
-t1.name AS name,
-t1.image AS image,
-t1.type AS type,
-t1.id AS id
-FROM `breed` AS t1
-WHERE t1.name LIKE '%$this->term%'
-ORDER BY t1.name ASC LIMIT 10 $set
+                    SELECT
+                        t1.name AS name,
+                        t1.image AS image,
+                        t1.type AS type,
+                        t1.id AS id
+                    FROM `breed` AS t1
+                    WHERE t1.name LIKE '%$this->term%'
 _STRING;
                     break;
                 case 'type':
@@ -136,7 +131,7 @@ _STRING;
                         t1.type AS type,
                         t1.id AS id
                     FROM 'breed' AS t1 
-                    WHERE t1.type LIKE '%$this->term%' ORDER BY t1.name ASC LIMIT 10
+                    WHERE t1.type LIKE '%$this->term%' 
 _STRING;
                     break;
                 default:
@@ -147,7 +142,6 @@ _STRING;
                         t1.type AS type,
                         t1.id AS id
                     FROM 'breed'
-                    ORDER BY name ASC LIMIT 10
 _STRING;
                     break;
             }
@@ -162,7 +156,7 @@ _STRING;
                         t1.id AS id 
                     FROM 'shelter' AS t1 
                     LEFT JOIN 'city' AS t2 ON t1.city_id = t2.id 
-                    WHERE t1.name LIKE '%$this->term%' ORDER BY t1.name ASC LIMIT 10
+                    WHERE t1.name LIKE '%$this->term%' 
 _MYSQL;
                     break;
                 case 'city':
@@ -174,7 +168,7 @@ _MYSQL;
                         t1.id AS id
                     FROM 'shelter' AS t1 
                     LEFT JOIN 'city' AS t2 ON t1.city_id = t2.id 
-                    WHERE t2.name LIKE '%$this->term%' ORDER BY t1.name ASC LIMIT 10
+                    WHERE t2.name LIKE '%$this->term%' 
 _STRING;
 
                     break;
@@ -187,7 +181,6 @@ _STRING;
                         t1.id AS id
                     FROM 'shelter' AS t1 
                     LEFT JOIN 'city' AS t2 ON t1.city_id = t2.id 
-                    ORDER BY t1.name ASC LIMIT 10
 _STRING;
                     break;
             }
@@ -198,6 +191,10 @@ _STRING;
 
     public function query() {
         $query = $this->buildQuery();
+        if (intval($this->offset) != 0) {
+            $set = " OFFSET " . intval($this->offset);
+        }
+        $query = $query . "ORDER BY t1.name ASC LIMIT 10 $set";
         $result = queryData($query);
         if (!$result) {
             return "MySQL Query error. Will be rectified shortly. \n" . $data->error;
@@ -320,6 +317,20 @@ _STRING;
 
     public function getOffset() {
         return $this->offset;
+    }
+
+    public function setOffset(int $set) {
+        $this->offset = $set;
+    }
+
+    public function getLength() {
+        $query = $this->buildQuery();
+        $result = queryData($query);
+        if (!$result) {
+            return "MySQL Query error. Will be rectified shortly. \n" . $data->error;
+        } else {
+            return intval($result->num_rows);
+        }
     }
 
 }

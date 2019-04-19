@@ -39,18 +39,22 @@ if (isset($_POST['name'])) {
     $outputtable = $search->query();
 
     if ($search->getOffset() == 0) {
-        $nextButton = <<<_STRING
-        <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Next</a>
-_STRING;
         $prevButton = <<<_STRING
         <a data-role="button" class="ui-btn ui-corner-all ui-state-disabled" disabled="true">Prev</a>
 _STRING;
     } else {
-        $nextButton = <<<_STRING
-        <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Next</a>
-_STRING;
         $prevButton = <<<_STRING
         <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Prev</a>
+_STRING;
+    }
+
+    if (intval($search->getOffset()) + 10 >= intval($search->getLength())) {
+        $nextButton = <<<_STRING
+        <a data-role="button" class="ui-btn ui-corner-all ui-state-disabled">Next</a>
+_STRING;
+    } else {
+        $nextButton = <<<_STRING
+        <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Next</a>
 _STRING;
     }
 
@@ -58,29 +62,31 @@ _STRING;
 } else if (isset($_SESSION['search'])) {
     $search = $_SESSION['search'];
     if (isset($_POST['next']))
-        $search->addTen();
+        $search->setOffset($_POST['next']);
     else if (isset($_POST['prev']))
-        $search->subTen();
+        $search->setOffset($_POST['prev']);
 
     $outputtable = $search->query();
 
     if ($search->getOffset() == 0) {
-        $nextButton = <<<_STRING
-        <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Next</a>
-_STRING;
         $prevButton = <<<_STRING
         <a data-role="button" class="ui-btn ui-corner-all ui-state-disabled" disabled="true">Prev</a>
+_STRING;
+    } else {
+        $prevButton = <<<_STRING
+        <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Prev</a>
+_STRING;
+    }
+    if (intval($search->getOffset()) + 10 >= intval($search->getLength())) {
+        $nextButton = <<<_STRING
+        <a data-role="button" class="ui-btn ui-corner-all ui-state-disabled">Next</a>
 _STRING;
     } else {
         $nextButton = <<<_STRING
         <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Next</a>
 _STRING;
-        $prevButton = <<<_STRING
-        <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Prev</a>
-_STRING;
     }
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -135,13 +141,13 @@ _STRING;
             <div class="four columns"><p> </p></div>
             <div class="two columns">
                 <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" data-ajax="false">
-                    <input type="hidden" name="prev" value="TRUE" />
+                    <input type="hidden" name="prev" value="<?php echo $_SESSION['search']->getOffset() - 10; ?>" />
                     <?php echo $prevButton; ?>
                 </form>
             </div>
             <div class="two columns">
                 <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" data-ajax="false">
-                    <input type="hidden" name="next" value="TRUE" />
+                    <input type="hidden" name="next" value="<?php echo $_SESSION['search']->getOffset() + 10; ?>" />
                     <?php echo $nextButton; ?>
                 </form>
             </div>
