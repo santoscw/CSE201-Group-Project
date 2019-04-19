@@ -43,7 +43,7 @@ if (isset($_POST['name'])) {
         <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Next</a>
 _STRING;
         $prevButton = <<<_STRING
-        <button class="ui-btn ui-corner-all submitProxy" disabled>Prev</a>
+        <a data-role="button" class="ui-btn ui-corner-all ui-state-disabled" disabled="true">Prev</a>
 _STRING;
     } else {
         $nextButton = <<<_STRING
@@ -69,7 +69,7 @@ _STRING;
         <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Next</a>
 _STRING;
         $prevButton = <<<_STRING
-        <button class="ui-btn ui-corner-all submitProxy" disabled>Prev</a>
+        <a data-role="button" class="ui-btn ui-corner-all ui-state-disabled" disabled="true">Prev</a>
 _STRING;
     } else {
         $nextButton = <<<_STRING
@@ -132,7 +132,7 @@ _STRING;
     <div id="mainArea" data-form="ui-page-theme-a" class="ui-content">
         <?php echo $outputtable; ?>
         <div class="container">
-            <div class="four columns"></div>
+            <div class="four columns"><p> </p></div>
             <div class="two columns">
                 <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" data-ajax="false">
                     <input type="hidden" name="prev" value="TRUE" />

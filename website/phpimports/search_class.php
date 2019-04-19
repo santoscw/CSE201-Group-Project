@@ -119,10 +119,10 @@ _STRING;
                 case 'name':
                     $query  = <<<_STRING
 SELECT
-t1.name,
-t1.image,
-t1.type,
-t1.id
+t1.name AS name,
+t1.image AS image,
+t1.type AS type,
+t1.id AS id
 FROM `breed` AS t1
 WHERE t1.name LIKE '%$this->term%'
 ORDER BY t1.name ASC LIMIT 10 $set
