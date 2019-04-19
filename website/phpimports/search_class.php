@@ -2,57 +2,131 @@
 
 require_once('functions.php');
 
+/**
+ * A search utility to account for multiple different queries, and aiding in pagination
+ * 
+ * This class takes in the _table to search on, the _column of that _table to search on, the searching _term,
+ * and any starting _offset to begin with.
+ * 
+ * In future versions, $_offset will likely be replaced with $page, where $_offset is 10x bigger than $page.
+ * 
+ * As of now, pagination is handled using $_offset.
+ * 
+ * @author      Benjamin Arehart <benjamin@arehart.com>
+ * @version     v2.5.2
+ * @since       Class available since v2.1 of Advanced Search Utility
+ */
 class Search {
-    private $table;
-    private $column;
-    private $term;
-    private $offset;
 
-    public function __construct($table, $column, $term, $offset = 0) {
+    /**
+     * The table to search
+     * 
+     * Potential values are "dog", "breed", and "shelter".
+     * 
+     * @var string
+     * @access private
+     */
+    private $_table;
+
+    /**
+     * The column on the table to search
+     * 
+     * Potential values depend on the table.
+     * 
+     * @var string
+     * @access private
+     */
+    private $_column;
+
+    /**
+     * The search term
+     * 
+     * This value is based on user input, after the string has been cleaned.
+     * 
+     * @var string
+     * @access private
+     */
+    private $_term;
+
+    /**
+     * The query offset.
+     * 
+     * Potential values are multiples of 10.
+     * 
+     * @var int
+     * @access private
+     */
+    private $_offset;
+
+    /**
+     * Creates the Search object
+     * 
+     * Defines the four class variables and then validates them.
+     * 
+     * @param string    $_table     the string to define the table.
+     * @param string    $_column    the string to define the column.
+     * @param string    $_term      the string to define the search term.
+     * @param int       $_offset    an integer to offset the query by. Defaults to 0.
+     * 
+     * @return Search  the Search object.
+     */
+    public function __construct($_table, $_column, $_term, $_offset = 0) {
         
-        $this->table = $table;
-        $this->column = $column;
-        $this->term = $term;
-        $this->offset = $offset;
+        $this->_table = $_table;
+        $this->_column = $_column;
+        $this->_term = $_term;
+        $this->_offset = $_offset;
         $this->valid();
     }
 
-
+    /**
+     * Validates the Search object
+     * 
+     * @return void
+     * @throws InvalidArgumentException if the search object is invalid.
+     * 
+     * @access private
+     */
     private function valid() {
-        if ($this->table == "dog") {
-            if (!($this->column == "name" || $this->column == "breed" || $this->column == "shelter")) {
+        if ($this->_table == "dog") {
+            if (!($this->_column == "name" || $this->_column == "breed" || $this->_column == "shelter")) {
                 throw new InvalidArgumentException(
                     sprintf(
-                        '"%s" is not a valid search column.',
-                        $this->column
+                        '"%s" is not a valid search _column.',
+                        $this->_column
                     )
                 );
             }
-        } else if ($this->table == "breed") {
-            if (!($this->column == "name" || $this->column == "type")) {
+        } else if ($this->_table == "breed") {
+            if (!($this->_column == "name" || $this->_column == "type")) {
                 throw new InvalidArgumentException(
                     sprintf(
-                        '"%s" is not a valid search column.',
-                        $this->column
+                        '"%s" is not a valid search _column.',
+                        $this->_column
                     )
                 );
             }
         } else {
-            if (!($this->column == "name" || $this->column == "city")) {
+            if (!($this->_column == "name" || $this->_column == "city")) {
                 throw new InvalidArgumentException(
                     sprintf(
-                        '"%s" is not a valid search column.',
-                        $this->column
+                        '"%s" is not a valid search _column.',
+                        $this->_column
                     )
                 );
             }
         }
     }
 
+    /**
+     * Creates the MySQL query based on the search input.
+     * @return: a string query
+     * @access private
+     */
     private function buildQuery() {
         $query = $set = null;
-        if ($this->table == "dog") {
-            switch ($this->column) {
+        if ($this->_table == "dog") {
+            switch ($this->_column) {
                 case 'name':
                     $query  = <<<_STRING
                     SELECT 
@@ -64,7 +138,7 @@ class Search {
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
-                    WHERE t1.name LIKE '%$this->term%' 
+                    WHERE t1.name LIKE '%$this->_term%' 
 _STRING;
                     break;
                 case 'breed':
@@ -78,7 +152,7 @@ _STRING;
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
-                    WHERE t2.name LIKE '%$this->term%' 
+                    WHERE t2.name LIKE '%$this->_term%' 
 _STRING;
 
                     break;
@@ -93,7 +167,7 @@ _STRING;
                     FROM 'dog' AS t1 
                     LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
-                    WHERE t3.name LIKE '%$this->term%' 
+                    WHERE t3.name LIKE '%$this->_term%' 
 _STRING;
                     break;
                 default:
@@ -110,8 +184,8 @@ _STRING;
 _STRING;
                     break;
             }
-        } else if ($this->table == "breed") {
-            switch ($this->column) {
+        } else if ($this->_table == "breed") {
+            switch ($this->_column) {
                 case 'name':
                     $query  = <<<_STRING
                     SELECT
@@ -120,7 +194,7 @@ _STRING;
                         t1.type AS type,
                         t1.id AS id
                     FROM `breed` AS t1
-                    WHERE t1.name LIKE '%$this->term%'
+                    WHERE t1.name LIKE '%$this->_term%'
 _STRING;
                     break;
                 case 'type':
@@ -131,7 +205,7 @@ _STRING;
                         t1.type AS type,
                         t1.id AS id
                     FROM 'breed' AS t1 
-                    WHERE t1.type LIKE '%$this->term%' 
+                    WHERE t1.type LIKE '%$this->_term%' 
 _STRING;
                     break;
                 default:
@@ -145,8 +219,8 @@ _STRING;
 _STRING;
                     break;
             }
-        } else if ($this->table == "shelter") {
-            switch ($this->column) {
+        } else if ($this->_table == "shelter") {
+            switch ($this->_column) {
                 case 'name':
                     $query  = <<<_MYSQL
                     SELECT 
@@ -156,7 +230,7 @@ _STRING;
                         t1.id AS id 
                     FROM 'shelter' AS t1 
                     LEFT JOIN 'city' AS t2 ON t1.city_id = t2.id 
-                    WHERE t1.name LIKE '%$this->term%' 
+                    WHERE t1.name LIKE '%$this->_term%' 
 _MYSQL;
                     break;
                 case 'city':
@@ -168,7 +242,7 @@ _MYSQL;
                         t1.id AS id
                     FROM 'shelter' AS t1 
                     LEFT JOIN 'city' AS t2 ON t1.city_id = t2.id 
-                    WHERE t2.name LIKE '%$this->term%' 
+                    WHERE t2.name LIKE '%$this->_term%' 
 _STRING;
 
                     break;
@@ -189,10 +263,21 @@ _STRING;
         return $query;
     }
 
+    /**
+     * queries the database and structures the output HTML table
+     * 
+     * Calls the $this->buildQuery() function to get the search query for this object, and sets the offset
+     * for the query (if any). 
+     * 
+     * @return string  typically a lengthy string of HTML tags, but if the query fails, then a short message
+     * stating such a thing.
+     * 
+     * @access public
+     */
     public function query() {
         $query = $this->buildQuery();
-        if (intval($this->offset) != 0) {
-            $set = " OFFSET " . intval($this->offset);
+        if (intval($this->_offset) != 0) {
+            $set = " OFFSET " . intval($this->_offset);
         }
         $query = $query . "ORDER BY t1.name ASC LIMIT 10 $set";
         $result = queryData($query);
@@ -200,9 +285,9 @@ _STRING;
             return "MySQL Query error. Will be rectified shortly. \n" . $data->error;
         } else {
             $rows = $result->num_rows;
-            if ($this->table == "dog") {
+            if ($this->_table == "dog") {
                 $outputtable = <<<_STRING
-                <table data-role="table" id="searchTable" data-mode="columntoggle" class="ui-responsive ui-table ui-corner-all">
+                <table data-role="table" id="search_table" data-mode="columntoggle" class="ui-responsive ui-table ui-corner-all">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -235,9 +320,9 @@ _STRING;
                     $outputtable = $outputtable . $outputrow;
                 }
                 $outputtable = $outputtable . "</tbody></table>";
-            } else if ($this->table == "breed") {
+            } else if ($this->_table == "breed") {
                 $outputtable = <<<_STRING
-                <table data-role="table" id="breedTable" data-mode="columntoggle" class="ui-responsive ui-table ui-corner-all">
+                <table data-role="table" id="breed_table" data-mode="columntoggle" class="ui-responsive ui-table ui-corner-all">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -268,9 +353,9 @@ _STRING;
                     $outputtable = $outputtable . $outputrow;
                 }
                 $outputtable = $outputtable . "</tbody></table>";
-            } else if ($this->table == "shelter") {
+            } else if ($this->_table == "shelter") {
                 $outputtable = <<<_STRING
-                <table data-role="table" id="searchTable" data-mode="columntoggle" class="ui-responsive ui-table ui-corner-all">
+                <table data-role="table" id="search_table" data-mode="columntoggle" class="ui-responsive ui-table ui-corner-all">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -307,22 +392,60 @@ _STRING;
         }
     }
 
+    /**
+     * adds ten to the offset
+     * 
+     * @return void
+     * 
+     * @access public
+     */
     public function addTen() {
-        $this->offset = $this->offset + 10;
+        $this->_offset = $this->_offset + 10;
     }
 
+    /**
+     * subtracts ten from the offset
+     * 
+     * @return void
+     * 
+     * @access public
+     */
     public function subTen() {
-        $this->offset = $this->offset - 10;
+        $this->_offset = $this->_offset - 10;
     }
 
+    /**
+     * getter for $this->_offset
+     * 
+     * @return int  the offset var
+     * 
+     * @access public
+     */
     public function getOffset() {
-        return $this->offset;
+        return $this->_offset;
     }
 
+    /**
+     * setter for $this->_offset
+     * 
+     * @return void
+     * 
+     * @access public
+     */
     public function setOffset(int $set) {
-        $this->offset = $set;
+        $this->_offset = $set;
     }
 
+    /**
+     * gets the number of rows total that the search query returns
+     * 
+     * Runs the query and returns the number of rows. Works without using the OFFSET or LIMIT keywords that
+     * the displayed query runs. Useful for accounting for the uper limit of pagination.
+     * 
+     * @return int  number of rows returned by the search query.
+     * 
+     * @access public
+     */
     public function getLength() {
         $query = $this->buildQuery();
         $result = queryData($query);
