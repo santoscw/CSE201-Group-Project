@@ -50,7 +50,10 @@ class Search {
     }
 
     private function buildQuery() {
-        $query = null;
+        $query = $set = null;
+        if (intval($this->offset) != 0) {
+            $set = " OFFSET " . intval($this->offset);
+        }
         if ($this->table == "dog") {
             switch ($this->column) {
                 case 'name':
@@ -115,13 +118,14 @@ _STRING;
             switch ($this->column) {
                 case 'name':
                     $query  = <<<_STRING
-                    SELECT
-                        t1.name AS name,
-                        t1.image AS image,
-                        t1.type AS type,
-                        t1.id AS id
-                    FROM 'breed' AS t1 
-                    WHERE t1.name LIKE '%$this->term%' ORDER BY t1.name ASC LIMIT 10
+SELECT
+t1.name,
+t1.image,
+t1.type,
+t1.id
+FROM `breed` AS t1
+WHERE t1.name LIKE '%$this->term%'
+ORDER BY t1.name ASC LIMIT 10 $set
 _STRING;
                     break;
                 case 'type':
@@ -141,9 +145,9 @@ _STRING;
                         t1.name AS name,
                         t1.image AS image,
                         t1.type AS type,
-                        t1.id AS id 
-                    FROM 'breed' AS t1 
-                    ORDER BY t1.name ASC LIMIT 10
+                        t1.id AS id
+                    FROM 'breed'
+                    ORDER BY name ASC LIMIT 10
 _STRING;
                     break;
             }
@@ -188,9 +192,7 @@ _STRING;
                     break;
             }
         }
-        if ($this->offset != 0) {
-            $query = $query . ' OFFSET $offset';
-        }
+        
         return $query;
     }
 
@@ -198,7 +200,7 @@ _STRING;
         $query = $this->buildQuery();
         $result = queryData($query);
         if (!$result) {
-            return "MySQL Query error. Will be rectified shortly.\n" . $data->error;
+            return "MySQL Query error. Will be rectified shortly. \n" . $data->error;
         } else {
             $rows = $result->num_rows;
             if ($this->table == "dog") {
@@ -285,7 +287,6 @@ _STRING;
                 for ($j = 0; $j < $rows; ++$j) {
                     $result->data_seek($j);
                     $row = $result->fetch_array(MYSQLI_ASSOC);
-                    $documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]);
                     $outputrow = <<<_STRING
                     <tr>
                         <td>{$row['name']}</td>

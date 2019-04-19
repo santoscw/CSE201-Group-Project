@@ -34,8 +34,54 @@ if (isset($_POST['name'])) {
     $column = mysql_sanitize_db_input_info($_POST['column']);
 
     $search = new Search($target, $column, $name);
+    $_SESSION['search'] = $search;
+
     $outputtable = $search->query();
+
+    if ($search->getOffset() == 0) {
+        $nextButton = <<<_STRING
+        <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Next</a>
+_STRING;
+        $prevButton = <<<_STRING
+        <button class="ui-btn ui-corner-all submitProxy" disabled>Prev</a>
+_STRING;
+    } else {
+        $nextButton = <<<_STRING
+        <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Next</a>
+_STRING;
+        $prevButton = <<<_STRING
+        <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Prev</a>
+_STRING;
+    }
+
+    
+} else if (isset($_SESSION['search'])) {
+    $search = $_SESSION['search'];
+    if (isset($_POST['next']))
+        $search->addTen();
+    else if (isset($_POST['prev']))
+        $search->subTen();
+
+    $outputtable = $search->query();
+
+    if ($search->getOffset() == 0) {
+        $nextButton = <<<_STRING
+        <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Next</a>
+_STRING;
+        $prevButton = <<<_STRING
+        <button class="ui-btn ui-corner-all submitProxy" disabled>Prev</a>
+_STRING;
+    } else {
+        $nextButton = <<<_STRING
+        <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Next</a>
+_STRING;
+        $prevButton = <<<_STRING
+        <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Prev</a>
+_STRING;
+    }
 }
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -85,6 +131,22 @@ if (isset($_POST['name'])) {
     </header>
     <div id="mainArea" data-form="ui-page-theme-a" class="ui-content">
         <?php echo $outputtable; ?>
+        <div class="container">
+            <div class="four columns"></div>
+            <div class="two columns">
+                <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" data-ajax="false">
+                    <input type="hidden" name="prev" value="TRUE" />
+                    <?php echo $prevButton; ?>
+                </form>
+            </div>
+            <div class="two columns">
+                <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" data-ajax="false">
+                    <input type="hidden" name="next" value="TRUE" />
+                    <?php echo $nextButton; ?>
+                </form>
+            </div>
+            <div class="four columns"></div>
+        </div>
     </div>
 </body>
 
