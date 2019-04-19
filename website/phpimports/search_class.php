@@ -222,7 +222,7 @@ _STRING;
         } else if ($this->_table == "shelter") {
             switch ($this->_column) {
                 case 'name':
-                    $query  = <<<_MYSQL
+                    $query  = <<<_STRING
                     SELECT 
                         t1.name AS name,
                         t2.name AS city,
@@ -231,7 +231,7 @@ _STRING;
                     FROM 'shelter' AS t1 
                     LEFT JOIN 'city' AS t2 ON t1.city_id = t2.id 
                     WHERE t1.name LIKE '%$this->_term%' 
-_MYSQL;
+_STRING;
                     break;
                 case 'city':
                     $query  = <<<_STRING
