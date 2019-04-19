@@ -48,7 +48,7 @@ _STRING;
 _STRING;
     }
 
-    if (intval($search->getOffset()) + 10 >= intval($search->getLength())) {
+    if ($search->getOffset() + 10 >= $search->getLength()) {
         $nextButton = <<<_STRING
         <a data-role="button" class="ui-btn ui-corner-all ui-state-disabled">Next</a>
 _STRING;
@@ -77,7 +77,7 @@ _STRING;
         <a href="#" data-role="button" class="ui-btn ui-corner-all submitProxy">Prev</a>
 _STRING;
     }
-    if (intval($search->getOffset()) + 10 >= intval($search->getLength())) {
+    if ($search->getOffset() + 10 >= $search->getLength()) {
         $nextButton = <<<_STRING
         <a data-role="button" class="ui-btn ui-corner-all ui-state-disabled">Next</a>
 _STRING;

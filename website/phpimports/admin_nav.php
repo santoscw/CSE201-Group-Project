@@ -18,7 +18,7 @@ $nav = <<<_END
 	$forma
 	<ul class="MenuBarHorizontal">
 		<li><a href="index.php" class="$homeactive" title="Home" data-ajax="false">Home</a></li>
-		<li><a href="doglist.php" class="$breedlistactive" data-ajax="false">Breed List</a></li>
+		<li><a href="results.php" class="$breedlistactive" data-ajax="false">Breed List</a></li>
 		<li><a href="Shelter.html" title="Shelters" class="ui-btn">Shelter</a></li>
 		<li><a href="contact.html" title="Contact Us" class="ui-btn">Contact Us</a></li>	
 		$login

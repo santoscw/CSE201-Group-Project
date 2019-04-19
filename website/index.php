@@ -98,7 +98,7 @@
 			</div>
 		</header>
 		<div class="container">
-			<form action="doglist.php" method="post" data-ajax="false">
+			<form action="results.php" method="post" data-ajax="false">
 				<div class="five columns">
 					<div id="sb-search" class="sb-search">
 							<input type="search" class="sb-search-input" name="name" placeholder="Enter your search term..." id="search" required="">
@@ -111,6 +111,7 @@
 						<option value="shelter">Shelter</option>
 					</select>
 				</div>
+				<input type="hidden" name="column" value="name" />
 				<div class="two columns">
 					<a class="ui-btn ui-input-btn ui-corner-all submitProxy">Search </a>
 				</div>
