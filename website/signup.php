@@ -1,62 +1,57 @@
 <?php
-	require_once 'phpimports/header.php';
-	
-	$un_temp = $usernameErr = $passwordErr = $emailErr = $error = null;
-	
-	if (isset($_POST['username']) && isset($_POST['password']))
-	{
-		if ($_POST['password'] == $_POST['repassword']) {
-			$un_temp = mysql_sanitize_db_input_info($_POST['username']);
-			$email_temp = mysql_sanitize_db_input_info($_POST['email']);
-			$token = password_hash(mysql_sanitize_password($_POST['password']), PASSWORD_DEFAULT);
-			
-			$query  = "SELECT * FROM user WHERE username='$un_temp'";
-			$result = queryUser($query);
-			if (!$result) die($connection->error);
-			elseif ($result->num_rows) 
-			{
-				$row = $result->fetch_array(MYSQLI_NUM);
-				
-				$result->close();
-				
-				if ($row[1] == $un_temp) {
-					$usernameErr = "Username already taken.";
-					$error = null;
-				}
-				
-			} else {
-	//			else $error = "<li data-form='ui-body-a'><pre class='ui-custom-inherit'>Username or password is incorrect</pre></li>";
-				if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['username'] == null)
-				{
-					$usernameErr = "*Required";
-					$error = null;
-				}
-				if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['password'] == null) 
-				{
-					$passwordErr = "*Required";
-					$error = null;
-				}
-				if ($_SERVER['REQUEST_METHOD'] == "POST" && $email_temp == null)
-				{
-					$emailErr = "*Required";
-				}
-				elseif (!filter_var($email_temp, FILTER_VALIDATE_EMAIL)) 
-				{
-					$emailErr = "Invalid address";
-				}
-			
-				if ($usernameErr == null && $passwordErr == null && $emailErr == null && $error == null) {
-					$query = "INSERT INTO user (username, email, password) VALUES('$un_temp', '$email_temp', '$token')";
-					$result = queryUser($query);
-					if (!$result) die($connection->error);
-				}
-			}
-		} else {
-			$passwordErr = "Passwords do not match";
-			$error = null;
-		}
-	} 
-	closeConnection();
+    require_once 'phpimports/header.php';
+    
+    $un_temp = $usernameErr = $passwordErr = $emailErr = $error = null;
+    
+    if (isset($_POST['username']) && isset($_POST['password'])) {
+        if ($_POST['password'] == $_POST['repassword']) {
+            $un_temp = mysql_sanitize_db_input_info($_POST['username']);
+            $email_temp = mysql_sanitize_db_input_info($_POST['email']);
+            $token = password_hash(mysql_sanitize_password($_POST['password']), PASSWORD_DEFAULT);
+            
+            $query  = "SELECT * FROM user WHERE username='$un_temp'";
+            $result = queryUser($query);
+            if (!$result) {
+                die($connection->error);
+            } elseif ($result->num_rows) {
+                $row = $result->fetch_array(MYSQLI_NUM);
+                
+                $result->close();
+                
+                if ($row[1] == $un_temp) {
+                    $usernameErr = "Username already taken.";
+                    $error = null;
+                }
+            } else {
+                //			else $error = "<li data-form='ui-body-a'><pre class='ui-custom-inherit'>Username or password is incorrect</pre></li>";
+                if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['username'] == null) {
+                    $usernameErr = "*Required";
+                    $error = null;
+                }
+                if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['password'] == null) {
+                    $passwordErr = "*Required";
+                    $error = null;
+                }
+                if ($_SERVER['REQUEST_METHOD'] == "POST" && $email_temp == null) {
+                    $emailErr = "*Required";
+                } elseif (!filter_var($email_temp, FILTER_VALIDATE_EMAIL)) {
+                    $emailErr = "Invalid address";
+                }
+            
+                if ($usernameErr == null && $passwordErr == null && $emailErr == null && $error == null) {
+                    $query = "INSERT INTO user (username, email, password) VALUES('$un_temp', '$email_temp', '$token')";
+                    $result = queryUser($query);
+                    if (!$result) {
+                        die($connection->error);
+                    }
+                }
+            }
+        } else {
+            $passwordErr = "Passwords do not match";
+            $error = null;
+        }
+    }
+    closeConnection();
 ?>
 <!DOCTYPE html>
 <html>
