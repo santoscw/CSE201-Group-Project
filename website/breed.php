@@ -31,7 +31,7 @@
     
     $target = $_POST['entry'];
     
-    $query  = "SELECT * FROM dog WHERE id = '$target'";
+    $query  = "SELECT * FROM breed WHERE id = '$target'";
     $result = queryData($query);
     if (!$result) {
         die($data->error);
@@ -43,7 +43,7 @@
     $outputrow = <<<_STRING
 		<tr>
 			<td>{$row['name']}</td>
-			<td>{$row['section']}</td>
+			<td>{$row['type']}</td>
 			<td>{$row['country']}</td>
 			<td><img src="{$row['image']}"></img></td>
 		</tr>

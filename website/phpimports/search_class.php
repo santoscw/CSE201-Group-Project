@@ -135,9 +135,9 @@ class Search {
                         t2.name AS breed,
                         t3.name AS shelter,
                         t1.id AS id
-                    FROM 'dog' AS t1 
-                    LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
-                    LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
+                    FROM `dog` AS t1 
+                    LEFT JOIN `breed` AS t2 ON t1.breed_id = t2.id 
+                    LEFT JOIN `shelter` AS t3 ON t1.shelter_id = t3.id
                     WHERE t1.name LIKE '%$this->_term%' 
 _STRING;
                     break;
@@ -149,9 +149,9 @@ _STRING;
                         t2.name AS breed,
                         t3.name AS shelter,
                         t1.id AS id 
-                    FROM 'dog' AS t1 
-                    LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
-                    LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
+                    FROM `dog` AS t1 
+                    LEFT JOIN `breed` AS t2 ON t1.breed_id = t2.id 
+                    LEFT JOIN `shelter` AS t3 ON t1.shelter_id = t3.id
                     WHERE t2.name LIKE '%$this->_term%' 
 _STRING;
 
@@ -164,9 +164,9 @@ _STRING;
                         t2.name AS breed,
                         t3.name AS shelter,
                         t1.id AS id 
-                    FROM 'dog' AS t1 
-                    LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
-                    LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
+                    FROM `dog` AS t1 
+                    LEFT JOIN `breed` AS t2 ON t1.breed_id = t2.id 
+                    LEFT JOIN `shelter` AS t3 ON t1.shelter_id = t3.id
                     WHERE t3.name LIKE '%$this->_term%' 
 _STRING;
                     break;
@@ -178,9 +178,9 @@ _STRING;
                         t2.name AS breed,
                         t3.name AS shelter,
                         t1.id AS id 
-                    FROM 'dog' AS t1 
-                    LEFT JOIN 'breed' AS t2 ON t1.breed_id = t2.id 
-                    LEFT JOIN 'shelter' AS t3 ON t1.shelter_id = t3.id
+                    FROM `dog` AS t1 
+                    LEFT JOIN `breed` AS t2 ON t1.breed_id = t2.id 
+                    LEFT JOIN `shelter` AS t3 ON t1.shelter_id = t3.id
 _STRING;
                     break;
             }
@@ -204,7 +204,7 @@ _STRING;
                         t1.image AS image,
                         t1.type AS type,
                         t1.id AS id
-                    FROM 'breed' AS t1 
+                    FROM `breed` AS t1 
                     WHERE t1.type LIKE '%$this->_term%' 
 _STRING;
                     break;
@@ -215,21 +215,23 @@ _STRING;
                         t1.image AS image,
                         t1.type AS type,
                         t1.id AS id
-                    FROM 'breed'
+                    FROM `breed`
 _STRING;
                     break;
             }
         } else if ($this->_table == "shelter") {
             switch ($this->_column) {
                 case 'name':
+					//                         t2.name AS city,
+					//                    LEFT JOIN `city` AS t2 ON t1.city_id = t2.id 
                     $query  = <<<_STRING
                     SELECT 
                         t1.name AS name,
-                        t2.name AS city,
+
                         t1.phone AS phone,
                         t1.id AS id 
-                    FROM 'shelter' AS t1 
-                    LEFT JOIN 'city' AS t2 ON t1.city_id = t2.id 
+                    FROM `shelter` AS t1 
+
                     WHERE t1.name LIKE '%$this->_term%' 
 _STRING;
                     break;
@@ -237,11 +239,9 @@ _STRING;
                     $query  = <<<_STRING
                     SELECT 
                         t1.name AS name,
-                        t2.name AS city,
                         t1.phone AS phone,
                         t1.id AS id
-                    FROM 'shelter' AS t1 
-                    LEFT JOIN 'city' AS t2 ON t1.city_id = t2.id 
+                    FROM `shelter` AS t1 
                     WHERE t2.name LIKE '%$this->_term%' 
 _STRING;
 
@@ -250,11 +250,9 @@ _STRING;
                     $query  = <<<_STRING
                     SELECT 
                         t1.name AS name,
-                        t2.name AS city,
                         t1.phone AS phone,
                         t1.id AS id
-                    FROM 'shelter' AS t1 
-                    LEFT JOIN 'city' AS t2 ON t1.city_id = t2.id 
+                    FROM `shelter` AS t1 
 _STRING;
                     break;
             }
@@ -354,12 +352,13 @@ _STRING;
                 }
                 $outputtable = $outputtable . "</tbody></table>";
             } else if ($this->_table == "shelter") {
+				//                            <th data-priority="2">City</th>
+
                 $outputtable = <<<_STRING
                 <table data-role="table" id="search_table" data-mode="columntoggle" class="ui-responsive ui-table ui-corner-all">
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th data-priority="2">City</th>
                             <th data-priority="3">Phone</th>
                             <th data-priority="1">Look at</th>
                         </tr>
@@ -369,10 +368,11 @@ _STRING;
                 for ($j = 0; $j < $rows; ++$j) {
                     $result->data_seek($j);
                     $row = $result->fetch_array(MYSQLI_ASSOC);
+					// <td>{$row['city']}</td>
                     $outputrow = <<<_STRING
                     <tr>
                         <td>{$row['name']}</td>
-                        <td>{$row['city']}</td>
+                        
                         <td>{$row['phone']}</td>
                         <td>
                             <form data-form="ui-body-a" method="post" action="shelter.php" data-ajax="false">
