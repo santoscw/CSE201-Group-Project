@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<project name='project' basedir='.' default='install'>
+
+    <property name='package' value='${phing.project.name}' override='true' />
+    <property name='installdir' value='../phing/install/${phing.project.name}' override='true' />
+    <property name='srcdir' value='${project.basedir}' override='true' />
+    <property name="svn_user" value="username" />
+    <property name="svn_pass" value="password" />
+
+
+    <!--- ============================================  -->
+    <!--- Fileset: codefiles                            -->
+    <!--- ============================================  -->
+    <fileset dir='${srcdir}' id='codefiles' defaultexcludes="true">
+        <include name='**' />
+
+        <exclude name="**/.svn" />
+        <exclude name="**/.settings/" />
+        <exclude name="**/config/" />
+        <exclude name="**/storage/" />
+        <exclude name="**/.env" />
+        <exclude name="**/.env.example" />
+        <exclude name="**/.project" />
+        <exclude name="**/build.xml" />
+        <exclude name="**/.project.xml" />
+        <exclude name="**/.buildpath" />
+    </fileset>
+
+    <!--- ============================================  -->
+    <!--- Target: prepare                               -->
+    <!--- ============================================  -->
+    <target name='prepare'>
+        <echo msg='Making directory ${installdir}' />
+        <mkdir dir='${installdir}' />
+    </target>
+
+    <!-- Target: build  Checkout from svn, and make tar.gz -->
+    <target name="build" depends="prepare">
+        <!--<echo msg="Export code from svn..." />
+        <input propertyname="export_revision">Revision to export from svn:</input>
+        <svnupdate
+           svnpath="svn"
+           revision="${export_revision}"
+           username="${svn_user}" password="${svn_pass}"
+           nocache="true"
+           todir="./"/>  -->
+
+        <echo msg="Creating archive..." />
+
+        <tar destfile="./${phing.project.name}.tar.gz" compression="gzip">
+            <fileset refid='codefiles' />
+        </tar>
+    </target>
+
+    <!--- ============================================  -->
+    <!--- Target: get                                   -->
+    <!--- ============================================  -->
+    <!--<target name='get'>
+      <svnupdate svnpath='file://D:/svn/myfirstrepo' todir='${srcdir}' />
+    </target>-->
+
+    <!--- ============================================  -->
+    <!--- Target: phpunit                               -->
+    <!--- ============================================  -->
+
+    <!--<target name='phpunit'>
+      <phpunit haltonfailure='true' printsummary='true'>
+        <batchtest>
+          <fileset dir='./tests'>
+            <include name='*Test.php' />
+          </fileset>
+        </batchtest>
+      </phpunit>
+    </target>-->
+
+    <!--- ============================================  -->
+    <!--- Target: install                               -->
+    <!--- ============================================  -->
+    <target name='install' depends='prepare,build'>
+        <!--<copy todir='${installdir}' overwrite='true'>
+          <fileset refid='codefiles' />
+        </copy>-->
+        <copy file='./${phing.project.name}.tar.gz' tofile='./${installdir}/./${phing.project.name}.tar.gz' overwrite='true' />
+        <delete file="./${phing.project.name}.tar.gz" />
+    </target>
+
+</project>
