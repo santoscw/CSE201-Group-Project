@@ -41,7 +41,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Administrator Log In</title>
+		<title>The Dog-alogue: Login</title>
 		<?php echo $headerImport; ?>
 		<script type="text/javascript">
 			$(function() {

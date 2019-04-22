@@ -93,7 +93,7 @@ _STRING;
 <html>
 
 <head>
-    <title>Search</title>
+    <title>The Dog-alogue: Search</title>
     <?php echo $headerImport; ?>
     <link rel="icon" type="image/ico" href="images/favicon.ico">
     <script type="text/javascript">

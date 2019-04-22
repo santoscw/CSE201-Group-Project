@@ -60,12 +60,13 @@ _STRING;
     </tr>
 _STRING;
         $outputtable = $outputtable . $outputrow;
+        $dog_name = $row['name'];
     $result->close();
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Database manager</title>
+		<title>The Dog-alogue: <?php echo $dog_name; ?></title>
 		<?php echo $headerImport; ?>
 		<link rel="icon" type="image/ico" href="images/favicon.ico">
 		<script type="text/javascript">

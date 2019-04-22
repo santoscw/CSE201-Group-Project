@@ -56,7 +56,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Register</title>
+		<title>The Dog-alogue: Register</title>
 		<?php echo $headerImport; ?>
 		<script type="text/javascript">
 			$(function() {

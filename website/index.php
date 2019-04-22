@@ -66,7 +66,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>TEST</title>
+		<title>The Dog-alogue: Home</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<?php echo $headerImport; ?>
 		<script type="text/javascript">
@@ -87,7 +87,7 @@
 			<div class="container">
 				<div class="twelve columns">
 					<div class="logo">
-						<p class="logomain">Dog Database</p>
+						<p class="logomain">The Dog-alogue</p>
 					</div>
 					<?php echo $nav; ?>
 					<?php if ($level > 0) {
