@@ -31,7 +31,18 @@
     
     $target = $_POST['entry'];
     
-    $query  = "SELECT * FROM breed WHERE id = '$target'";
+    $query  = <<<_STRING
+    SELECT
+    t1.name AS name,
+    t1.age AS age,
+    t2.name AS breed,
+    t3.name AS shelter,
+    t1.id AS id 
+    FROM `dog` AS t1 
+    LEFT JOIN `breed` AS t2 ON t1.breed_id = t2.id 
+    LEFT JOIN `shelter` AS t3 ON t1.shelter_id = t3.id
+    WHERE t1.id = $target
+_STRING;
     $result = queryData($query);
     if (!$result) {
         die($data->error);
@@ -41,12 +52,12 @@
     $row = $result->fetch_array(MYSQLI_ASSOC);
     $documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]);
     $outputrow = <<<_STRING
-		<tr>
-			<td>{$row['name']}</td>
-			<td>{$row['type']}</td>
-			<td>{$row['country']}</td>
-			<td><img src="{$row['image']}"></img></td>
-		</tr>
+    <tr>
+    <td>{$row['name']}</td>
+    <td>{$row['age']}</td>
+    <td>{$row['breed']}</td>
+    <td>{$row['shelter']}</td>
+    </tr>
 _STRING;
         $outputtable = $outputtable . $outputrow;
     $result->close();
@@ -76,16 +87,16 @@ _STRING;
 		</div>
 		<div id="mainArea" data-form="ui-page-theme-a" class="ui-content">
 			<?php echo $deletemsg; ?>
-			<table data-role="table" id="commentsTable" data-mode="columntoggle" class="ui-responsive ui-table ui-corner-all">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Section</th>
-						<th>Country</th>
-						<th data-priority="2">Image</th>
-					</tr>
-				</thead>
-				<tbody>
+            <table data-role="table" id="search_table" data-mode="columntoggle" class="ui-responsive ui-table ui-corner-all">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th data-priority="4">Age</th>
+                        <th data-priority="2">Breed</th>
+                        <th data-priority="3">Shelter</th>
+                    </tr>
+                </thead>
+                <tbody>
 					<?php echo $outputtable; ?>
 				</tbody>
 			</table>
