@@ -33,7 +33,10 @@
     <!-- Target: open                     -->
     <!-- ============================================  -->
 <target name="open"  depends="clean">
-<http-request url="http://my-production.example.com/check-deployment.php"/>
+<http-request url="http://142.93.10.23/">
+   <config name="adapter" value="HTTP_Request2_Adapter_Curl"/>
+   <header name="user-agent" value="Phing HttpRequestTask"/>
+ </http-request>
 </target>
 
 </project>
