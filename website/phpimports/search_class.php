@@ -459,5 +459,3 @@ _STRING;
 }
 
 ?>
-
-Dude. How do you even know these exist?
