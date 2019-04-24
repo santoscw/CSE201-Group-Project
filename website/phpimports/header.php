@@ -18,3 +18,5 @@ $headerImport = <<<_END
 	<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
 _END;
 ?>
+
+You're not supposed to be here.
