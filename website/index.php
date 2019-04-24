@@ -11,7 +11,7 @@
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 42000);
         }
-        session_devalueoy();
+        session_destroy();
         header('Location: index.php');
         exit();
     }
@@ -58,7 +58,7 @@
     //         }
     //     }
     // }
-    // closeConnection();
+    closeConnection();
     
 
 ?>
@@ -105,7 +105,6 @@
 	</head>
 	<body>
 		<header class="main_nav gray">
-			
 			<div class="container">
 				<div class="twelve columns">
 					<div class="logo">
@@ -117,7 +116,6 @@
 			</div>
 		</header>
 		<form action="results.php" method="post" data-ajax="false">
-
 			<div class="container">
 					<div class="six columns">
 						<label for="db" class="select"></label>
@@ -137,15 +135,14 @@
 				</div>
 				<div class="container">
 					<div class="ten columns">
-						<div id="sb-search" class="sb-search">
-								<input type="search" class="sb-search-input" name="name" placeholder="Enter your search term..." id="search" required="">
-						</div>
+						<input type="search" class="sb-search-input" name="name" placeholder="Enter your search term..." id="search" required="">
 					</div>
 					<div class="two columns">
 						<input type="submit" class="ui-btn ui-input-btn ui-corner-all submitProxy" value="Search" />
 					</div>
+				</div>
 			</div>
-			</form>
+		</form>
 <!--
 		<div class="container">
 			<div data-form="ui-body-a" id="contactSection" data-theme="a" class="ui-body ui-body-a ui-corner-all">

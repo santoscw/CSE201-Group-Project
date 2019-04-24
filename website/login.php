@@ -87,7 +87,7 @@
 						</li>
 						<?php echo $error;?>
 						<li class="ui-last-child">
-							<a class="ui-btn ui-input-btn ui-btn-icon-right ui-icon-lock" data-form="ui-btn-up-a" id="submitProxy">Log In</a>
+							<input type="submit" class="ui-btn ui-input-btn ui-btn-icon-right ui-icon-lock" data-form="ui-btn-up-a" id="submitProxy" value="Log In" />
 						</li>
 					</ul>
 				</form>
