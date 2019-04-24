@@ -154,3 +154,8 @@ footer p.copyright {
 select, option {
 	color:	black;
 }
+
+img {
+	max-width: 3em;
+	max-height: 2em;
+}

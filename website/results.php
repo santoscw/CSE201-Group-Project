@@ -102,6 +102,24 @@ _STRING;
                 e.preventDefault();
                 $(this).closest("form").submit();
             });
+            $("#column").selectmenu("disable");
+				$("#db").change(function() {
+					var value = $(this).val();
+					if(value == "") {
+						$("#column").html("<option value='' data-placeholder='true'>Choose...</option>");
+					} else {
+						if (value == "dog") {
+							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='breed'>Breed</option><option value='shelter'>Shelter</option>");
+						} else if (value == "breed") {
+							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='type'>Type</option>");
+						} else if (value == "shelter") {
+							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='city'>City</option>");
+						}
+						$("#column").selectmenu("enable");
+					}
+					$("#column").selectmenu("refresh");
+				});
+
         });
     </script>
 </head>
@@ -113,27 +131,37 @@ _STRING;
         <?php if ($level > 0) echo $admin_nav; ?>
     </div>
     <header class="main_nav">
+    <form action="results.php" method="post" data-ajax="false">
+
         <div class="container">
-            <form action="results.php" method="post" data-ajax="false">
-                <div class="five columns">
-                    <div id="sb-search" class="sb-search">
-                        <input type="search" class="sb-search-input" name="name" placeholder="Enter your search term..."
-                            id="search" required="">
-                    </div>
-                </div>
-                <div class="five columns">
-                    <select name="db">
-                        <option value="dog">Dog</option>
-                        <option value="breed">Breed</option>
-                        <option value="shelter">Shelter</option>
-                    </select>
-                </div>
-                <input type="hidden" name="column" value="name" />
-                <div class="two columns">
-                    <a class="ui-btn ui-input-btn ui-corner-all submitProxy">Search </a>
-                </div>
-            </form>
+                <div class="six columns">
+					<label for="db" class="select"></label>
+					<select name="db" id="db" data-native-menu="false" required="required">
+						<option value="" data-placeholder="true">Choose...</option>
+						<option value="dog">Dog</option>
+						<option value="breed">Breed</option>
+						<option value="shelter">Shelter</option>
+					</select>
+				</div>
+				<div class="six columns" >
+					<label for="column"></label>
+					<select name='column' id="column" data-native-menu="false" required>
+						<option value='' data-placeholder='true'>Choose...</option>
+					</select>
+				</div>
+            </div>
+            <div class="container">
+				<div class="ten columns">
+					<div id="sb-search" class="sb-search">
+							<input type="search" class="sb-search-input" name="name" placeholder="Enter your search term..." id="search" required="">
+					</div>
+				</div>
+				<div class="two columns">
+					<input type="submit" class="ui-btn ui-input-btn ui-corner-all submitProxy" value="Search" />
+				</div>
         </div>
+        </form>
+
     </header>
     <div id="mainArea" data-form="ui-page-theme-a" class="ui-content">
         <?php echo $outputtable; ?>

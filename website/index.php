@@ -11,7 +11,7 @@
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 42000);
         }
-        session_destroy();
+        session_devalueoy();
         header('Location: index.php');
         exit();
     }
@@ -31,34 +31,34 @@
     require_once 'phpimports/admin_nav.php';
 
 
-    if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['comments'])) {
-        $name_temp = mysql_sanitize_db_input_info($_POST['name']);
-        $email_temp = mysql_sanitize_db_input_info($_POST['email']);
-        $comment_temp = mysql_sanitize_db_input_info($_POST['comments']);
+    // if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['comments'])) {
+    //     $name_temp = mysql_sanitize_db_input_info($_POST['name']);
+    //     $email_temp = mysql_sanitize_db_input_info($_POST['email']);
+    //     $comment_temp = mysql_sanitize_db_input_info($_POST['comments']);
         
-        if ($_SERVER['REQUEST_METHOD'] == "POST" && $name_temp == null) {
-            $nameErr = "*Required";
-        }
-        if ($_SERVER['REQUEST_METHOD'] == "POST" && $email_temp == null) {
-            $emailErr = "*Required";
-        } elseif (!filter_var($email_temp, FILTER_VALIDATE_EMAIL)) {
-            $emailErr = "Invalid address";
-        }
-        if ($_SERVER['REQUEST_METHOD'] == "POST" && $comment_temp == null) {
-            $commentsErr = "*Required";
-        }
-        if ($nameErr == null && $emailErr == null && $commentsErr == null) {
-            $query = "INSERT INTO comments (name, email, comment) VALUES ('$name_temp', '$email_temp', '$comment_temp')";
-            $result = queryUser($query);
+    //     if ($_SERVER['REQUEST_METHOD'] == "POST" && $name_temp == null) {
+    //         $nameErr = "*Required";
+    //     }
+    //     if ($_SERVER['REQUEST_METHOD'] == "POST" && $email_temp == null) {
+    //         $emailErr = "*Required";
+    //     } elseif (!filter_var($email_temp, FILTER_VALIDATE_EMAIL)) {
+    //         $emailErr = "Invalid address";
+    //     }
+    //     if ($_SERVER['REQUEST_METHOD'] == "POST" && $comment_temp == null) {
+    //         $commentsErr = "*Required";
+    //     }
+    //     if ($nameErr == null && $emailErr == null && $commentsErr == null) {
+    //         $query = "INSERT INTO comments (name, email, comment) VALUES ('$name_temp', '$email_temp', '$comment_temp')";
+    //         $result = queryUser($query);
             
-            if (!$result) {
-                die($connection->error);
-            } else {
-                $submitmsg = "<p class='submit'>Thanks for the comment!</p>";
-            }
-        }
-    }
-    closeConnection();
+    //         if (!$result) {
+    //             die($connection->error);
+    //         } else {
+    //             $submitmsg = "<p class='submit'>Thanks for the comment!</p>";
+    //         }
+    //     }
+    // }
+    // closeConnection();
     
 
 ?>
@@ -78,9 +78,31 @@
 					e.preventDefault();
 					$(this).closest("form").submit();
 				});
+				$("#column").selectmenu("disable");
+				$("#db").change(function() {
+					var value = $(this).val();
+					if(value == "") {
+						$("#column").html("<option value='' data-placeholder='true'>Choose...</option>");
+					} else {
+						if (value == "dog") {
+							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='breed'>Breed</option><option value='shelter'>Shelter</option>");
+						} else if (value == "breed") {
+							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='type'>Type</option>");
+						} else if (value == "shelter") {
+							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='city'>City</option>");
+						}
+						$("#column").selectmenu("enable");
+					}
+					$("#column").selectmenu("refresh");
+				});
 			});
+
+			
+
+			
 		</script>
-			</head>
+
+	</head>
 	<body>
 		<header class="main_nav gray">
 			
@@ -90,33 +112,41 @@
 						<p class="logomain">The Dog-alogue</p>
 					</div>
 					<?php echo $nav; ?>
-					<?php if ($level > 0) {
-    echo $admin_nav;
-} ?>
-					
+					<?php if ($level > 0) { echo $admin_nav;} ?>
 				</div>
 			</div>
 		</header>
-		<div class="container">
-			<form action="results.php" method="post" data-ajax="false">
-				<div class="five columns">
-					<div id="sb-search" class="sb-search">
-							<input type="search" class="sb-search-input" name="name" placeholder="Enter your search term..." id="search" required="">
+		<form action="results.php" method="post" data-ajax="false">
+
+			<div class="container">
+					<div class="six columns">
+						<label for="db" class="select"></label>
+						<select name="db" id="db" data-native-menu="false" required="required">
+							<option value="" data-placeholder="true">Choose...</option>
+							<option value="dog">Dog</option>
+							<option value="breed">Breed</option>
+							<option value="shelter">Shelter</option>
+						</select>
+					</div>
+					<div class="six columns" >
+						<label for="column"></label>
+						<select name='column' id="column" data-native-menu="false" required>
+							<option value='' data-placeholder='true'>Choose...</option>
+						</select>
 					</div>
 				</div>
-				<div class="five columns">
-					<select name="db">
-						<option value="dog">Dog</option>
-						<option value="breed">Breed</option>
-						<option value="shelter">Shelter</option>
-					</select>
-				</div>
-				<input type="hidden" name="column" value="name" />
-				<div class="two columns">
-					<a class="ui-btn ui-input-btn ui-corner-all submitProxy">Search </a>
-				</div>
+				<div class="container">
+					<div class="ten columns">
+						<div id="sb-search" class="sb-search">
+								<input type="search" class="sb-search-input" name="name" placeholder="Enter your search term..." id="search" required="">
+						</div>
+					</div>
+					<div class="two columns">
+						<input type="submit" class="ui-btn ui-input-btn ui-corner-all submitProxy" value="Search" />
+					</div>
+			</div>
 			</form>
-		</div>
+<!--
 		<div class="container">
 			<div data-form="ui-body-a" id="contactSection" data-theme="a" class="ui-body ui-body-a ui-corner-all">
 				<form data-form="ui-body-a" id="contactForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" data-ajax="false">
@@ -165,7 +195,7 @@
 				</form>
 			</div>
 		</div>
-		
+		-->
 
 		<style>
 body, html {
