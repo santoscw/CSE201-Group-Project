@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="FooBar" default="build">
+<project name="DogDatabase" default="clean">
 
     <!-- ============================================  -->
     <!-- Target: prepare                               -->
@@ -23,6 +23,10 @@
     </target>
 
     <!-- ============================================  -->
-    <!-- (DEFAULT)  Target: dist                       -->
+    <!-- Target: clean                       -->
     <!-- ============================================  -->
+<target name="clean" depends="prepare">
+<echo msg="Clean all files" />
+<delete dir="./build" includeemptydirs="true" verbose="true" failonerror="true" />
+</target>
 </project>
