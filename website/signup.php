@@ -1,7 +1,12 @@
 <?php
     require_once 'phpimports/header.php';
     
-    $un_temp = $usernameErr = $passwordErr = $emailErr = $error = null;
+	$un_temp = $usernameErr = $passwordErr = $emailErr = $error = null;
+	
+	$registeractive = "ui-btn-active ui-state-persist";
+
+	require_once 'phpimports/admin_nav.php';
+
     
     if (isset($_POST['username']) && isset($_POST['password'])) {
         if ($_POST['password'] == $_POST['repassword']) {
@@ -77,15 +82,7 @@
 		<div id="registerPage" data-role="page" data-theme="a" class="ui-page-header-fixed ui-page-footer-fixed" data-title="Register">
 			<header data-role='header' data-theme="a" data-position="fixed" data-id="header" data-tap-toggle="false">
 				<h1 class="ui-title" data-role="heading">Register</h1>
-				<a class='ui-btn ui-input-btn ui-corner-all ui-shadow ui-btn-left ui-btn-icon-left ui-icon-home' href='index.php' data-transition='slide' title='Home Page'>Home</a>
-				<nav data-role="navbar">
-					<ul id="MenuBar1" class="MenuBarHorizontal">
-						<li><a href="index.php" class="ui-btn-icon-left ui-icon-home" title="Home" data-ajax="false">Home</a></li>
-						<li><a href="login.php" class="ui-btn-icon-left ui-icon-lock" title="Login Page">Log In</a></li>
-						<li><a href="register.php" class="ui-btn-icon-left ui-icon-user ui-state-persist ui-btn-active" title="Register">Register</a></li>
-
-					</ul>
-				</nav>
+				<?php echo $nav; ?>
 			</header>
 			<div id="mainArea" class="ui-content" data-form="ui-page-theme-a">
 				<form data-form="ui-body-a" id="registerForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" data-ajax="false">
