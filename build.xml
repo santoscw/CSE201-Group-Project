@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="DogDatabase" default="clean">
+<project name="DogDatabase" default="open">
 
     <!-- ============================================  -->
     <!-- Target: prepare                               -->
@@ -25,8 +25,15 @@
     <!-- ============================================  -->
     <!-- Target: clean                       -->
     <!-- ============================================  -->
-<target name="clean" depends="prepare">
+<target name="clean" depends="build">
 <echo msg="Clean all files" />
 <delete dir="./build" includeemptydirs="true" verbose="true" failonerror="true" />
 </target>
+    <!-- ============================================  -->
+    <!-- Target: open                     -->
+    <!-- ============================================  -->
+<target name="open"  depends="clean">
+<http-request url="http://my-production.example.com/check-deployment.php"/>
+</target>
+
 </project>
