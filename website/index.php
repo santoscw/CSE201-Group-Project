@@ -253,7 +253,7 @@ body, html {
 									<a href="https://en.wikipedia.org/wiki/Category:Dog_breeds"> Click here</a>
 								</div>		
 							</div>		
-						</li> 
+						</li>
 					</ul>
 				</div>
 			</div>

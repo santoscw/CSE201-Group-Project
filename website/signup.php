@@ -15,7 +15,7 @@
             $token = password_hash(mysql_sanitize_password($_POST['password']), PASSWORD_DEFAULT);
             
             $query  = "SELECT * FROM user WHERE username='$un_temp'";
-            $result = queryUser($query);
+            $result = queryData($query);
             if (!$result) {
                 die($connection->error);
             } elseif ($result->num_rows) {

@@ -13,7 +13,7 @@
         $token = mysql_sanitize_password($_POST['password']);
         
         $query  = "SELECT * FROM user WHERE username='$un_temp'";
-        $result = queryUser($query);
+        $result = queryData($query);
         if (!$result) {
             die($connection->error);
         } elseif ($result->num_rows) {

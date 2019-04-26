@@ -33,7 +33,7 @@ $admin_nav = <<<_END
 <nav data-role="navbar">
 	<ul id="MenuBar1" class="MenuBarHorizontal">
 		<li><a href="admin_home.php" class="$ahomeactive" data-ajax="false">Admin Home</a></li>
-		<li><a href="comments.php" class="ui-btn-icon-left ui-icon-comment $commentsactive" data-ajax="false">Database Manager</a></li>
+		<li><a href="users.php" class="ui-btn-icon-left ui-icon-user $commentsactive" data-ajax="false">User Management</a></li>
 	</ul>
 </nav>
 _END;

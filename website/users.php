@@ -28,18 +28,18 @@
     
     require_once 'phpimports/admin_nav.php';
     
-    if (isset($_POST['delete'])) {
-        $delete_target = $_POST['delete'];
-        $query = "DELETE FROM comments WHERE `uid`='$delete_target'";
-        $result = queryUser($query);
+    if (isset($_POST['admin'])) {
+        $admin_target = $_POST['admin'];
+        $query = "UPDATE `user` SET `level` = '2' WHERE `user`.`uid` = $admin_target";
+        $result = queryData($query);
         if (!$result) {
             die($connection->error);
         } else {
-            $deletemsg = "Successfully deleted.";
+            $adminmsg = "Successfully updated.";
         }
     }
-    $query  = "SELECT * FROM comments ORDER BY `uid` ASC";
-    $result = queryUser($query);
+    $query  = "SELECT `uid`, `username`, `email`, `level` FROM user ORDER BY `username` ASC";
+    $result = queryData($query);
     if (!$result) {
         die($connection->error);
     }
@@ -48,34 +48,39 @@
     for ($j = 0; $j < $rows; ++$j) {
         $result->data_seek($j);
         $row = $result->fetch_array(MYSQLI_ASSOC);
-        $documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]);
+		$documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]);
+		if ($row['level'] != 2)
+			$addadmin = "<td><a href='#confirm{$row['uid']}' data-rel='popup' data-role='button' data-transition='pop' class='ui-btn ui-btn-icon-right ui-icon-power'>MAKE ADMIN</a></td>";
+		else
+			$addadmin = "<td>This user is already an admin!</td>";
         $outputrow = <<<_STRING
 		<tr>
-		<td>{$row['name']}</td>
+		<td>{$row['username']}</td>
 		<td>{$row['email']}</td>
-		<td>{$row['comment']}</td>
-		<td>{$row['uid']}</td>
-		<td>
-		<a href="#confirm{$row['uid']}" data-rel="popup" data-role="button" data-transition="pop" class="ui-btn ui-btn-icon-right ui-icon-delete">DELETE</a>
-		</td>
+		<td>{$row['level']}</td>
+		$addadmin
 		</tr>
 _STRING;
-        $popupentry = <<<_POPUP
+        if ($row['level'] != 2) {
+            $popupentry = <<<_POPUP
 		<div data-role="popup" id="confirm{$row['uid']}" data-theme="a" class="ui-corner-all ui-popup ui-body-a">
 		<div data-role="header" data-theme="a" class="ui-corner-top ui-header ui-bar-a" role="banner">
 		<h1 class="ui-title">Are you sure?</h1>
 		</div>
 		<div class="ui-corner-bottome ui-content">
 		<form data-form="ui-body-a" method="post" action="$documentfunc" data-ajax="false">
-		<h3 class="ui-title">Are you sure you want to delete this comment?</h3>
-		<p>This CANNOT be undone.</p>
+		<h3 class="ui-title">Are you sure you want to alter these permissions?</h3>
+		<p>This will allow this user to have more control on this site.</p>
+		<p>This can only be undone on PHPMyAdmin, or in the raw MySQL!</p>
+		<p>DO NOT TOUCH IF YOU DON'T KNOW WHAT YOU'RE DOING</p>
 		<a href="#" data-role="button" data-rel="back" data-theme="a" class="ui-btn ui-btn-icon-right ui-icon-back ui-corner-all">Cancel</a>
-		<a href="#" data-role="button" class="ui-btn ui-btn-icon-right ui-icon-delete ui-corner-all submitProxy"><b>DELETE</b></a>
-		<input type="hidden" value="{$row['uid']}" name="delete" />
+		<a href="#" data-role="button" class="ui-btn ui-btn-icon-right ui-icon-power ui-corner-all submitProxy"><b>Update</b></a>
+		<input type="hidden" value="{$row['uid']}" name="admin" />
 		</form>
 		</div>
 		</div>
 _POPUP;
+        }
         $outputtable = $outputtable . $outputrow;
         $popuplist = $popuplist . $popupentry;
     }
@@ -84,7 +89,7 @@ _POPUP;
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Database manager</title>
+		<title>User manager</title>
 		<?php echo $headerImport; ?>
 		<link rel="icon" type="image/ico" href="images/favicon.ico">
 		<script type="text/javascript">
@@ -98,7 +103,7 @@ _POPUP;
 	</head>
 	<body>
 		<div data-role="header" class="ui-header ui-bar-inherit">
-			<h3 class="ui-title" role="heading">Database Manager</h3>
+			<h3 class="ui-title" role="heading">User Manager</h3>
 				<?php echo $nav; ?>
 				<?php echo $admin_nav; ?>
 		</div>
@@ -107,11 +112,11 @@ _POPUP;
 			<table data-role="table" id="commentsTable" data-mode="columntoggle" class="ui-responsive ui-table ui-corner-all">
 				<thead>
 					<tr>
-						<th>Name</th>
+						<th>Username</th>
 						<th data-priority="2">Email</th>
-						<th data-priority="1">Comment</th>
-						<th data-priority="3">ID</th>
-						<th data-priority="6">DELETE</th>
+						<th data-priority="1">level</th>
+						<th data-priority="5">MAKE MODERATOR</th>
+						<th data-priority="6">MAKE ADMIN</th>
 					</tr>
 				</thead>
 				<tbody>
