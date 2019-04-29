@@ -24,7 +24,8 @@
             if (password_verify($token, $row[3])) {
                 session_start();
                 $_SESSION['username'] = $un_temp;
-                $_SESSION['level'] = $row[4];
+				$_SESSION['level'] = $row[4];
+				$_SESSION['userid'] = $row[0];
                 header("Location: index.php");
             } else {
                 $error = "<li data-form='ui-body-a'><pre class='ui-custom-inherit'>Username or password is incorrect</pre></li>";

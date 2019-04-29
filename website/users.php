@@ -18,7 +18,7 @@
         session_regenerate_id();
         $_SESSION['initiated'] = 1;
     }
-    if (isset($_SESSION['username']) && isset($_SESSION['level']) && $_SESSION['level'] > 0) {
+    if (isset($_SESSION['username']) && isset($_SESSION['level']) && $_SESSION['level'] > 1) {
         $username = $_SESSION['username'];
         $level = $_SESSION['level'];
         $loggedin = true;
@@ -31,6 +31,15 @@
     if (isset($_POST['admin'])) {
         $admin_target = $_POST['admin'];
         $query = "UPDATE `user` SET `level` = '2' WHERE `user`.`uid` = $admin_target";
+        $result = queryData($query);
+        if (!$result) {
+            die($connection->error);
+        } else {
+            $adminmsg = "Successfully updated.";
+        }
+    } else if (isset($_POST['mod'])) {
+        $mod_target = $_POST['mod'];
+        $query = "UPDATE `user` SET `level` = '1' WHERE `user`.`uid` = $mod_target";
         $result = queryData($query);
         if (!$result) {
             die($connection->error);

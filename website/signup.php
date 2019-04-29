@@ -48,8 +48,13 @@
                     $result = queryUser($query);
                     if (!$result) {
                         die($connection->error);
-                    }
-                }
+					}
+					session_start();
+					$_SESSION['username'] = $un_temp;
+					$_SESSION['level'] = $row[4];
+					$_SESSION['userid'] = $row[0];
+					header("Location: index.php");
+				}
             }
         } else {
             $passwordErr = "Passwords do not match";
