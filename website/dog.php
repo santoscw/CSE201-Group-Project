@@ -1,5 +1,6 @@
 <?php
     require_once 'phpimports/header.php';
+    require_once 'phpimports/comment_class.php';
     $breedlistactive = "ui-btn-active ui-state-persist";
 
     session_start();
@@ -45,7 +46,8 @@
 			else
 			{
 				$submitmsg = "<p class='submit'>Thanks for the comment!</p>";
-			}
+            }
+            $result->close();
 		}
 	}
 
@@ -90,46 +92,11 @@ _STRING;
     <td>{$row['shelter']}</td>
     </tr>
 _STRING;
-        $outputtable = $outputtable . $outputrow;
-        $dog_name = $row['name'];
-        $dog_id = $row['id'];
+    $outputtable = $outputtable . $outputrow;
+    $dog_name = $row['name'];
 
-        $result->close();
-        $user_id = $_SESSION['userid'];
-
-        $query = <<<_STRING
-        SELECT 
-        t1.comment AS comment,
-        t2.username AS username, 
-        t1.time AS time 
-        FROM `commentDog` AS t1
-        LEFT JOIN `user` AS t2 ON t1.user_id = t2.uid
-        WHERE t1.dog_id = $dog_id
-        ORDER BY time DESC
-_STRING;
-
-        $result = queryData($query);
-        if (!$result) {
-            die($data->error);
-        }
-        $rows = $result->num_rows;
-        $pastComments = null;
-        for ($j = 0; $j < $rows; ++$j) {
-            $result->data_seek($j);
-            $row = $result->fetch_array(MYSQLI_ASSOC);
-
-
-            $pastComments = $pastComments . <<<_STRING
-        <tr>
-        <td>{$row['username']}</td>
-        <td>{$row['time']}</td>
-        <td>{$row['comment']}</td>
-        </tr>
-
-
-_STRING;
-        }
-
+    $user_id = $_SESSION['userid'];
+    if (isset($_SESSION['userid'])) {
         $addComment = <<<_STRING
         <div class="container">
         <div data-form="ui-body-a" id="contactSection" data-theme="a" class="ui-body ui-body-a ui-corner-all">
@@ -142,7 +109,7 @@ _STRING;
                     </div>
                 </div>
                 <input type="hidden" name="userid" value="$user_id" />
-                <input type="hidden" name="dogid" value="$dog_id" />
+                <input type="hidden" name="dogid" value="$target" />
                 <div class="row">
                     <div class="container">
                         <div class="twelve columns">
@@ -163,9 +130,16 @@ _STRING;
                 </div>
             </form>
         </div>
-
+    
 _STRING;
-    $result->close();
+    
+    } 
+
+
+    $commentEngine = new CommentTable($user_id, $target);
+
+    $pastComments = $commentEngine->query();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -184,11 +158,11 @@ _STRING;
 	</head>
 	<body>
 		<div data-role="header" class="ui-header ui-bar-inherit">
-			<h3 class="ui-title" role="heading">Database Manager</h3>
+			<h3 class="ui-title" role="heading"><?php echo $dog_name; ?></h3>
 				<?php echo $nav; ?>
 				<?php if ($level > 0) {
-    echo $admin_nav;
-} ?>
+                    echo $admin_nav;
+                } ?>
 		</div>
 		<div id="mainArea" data-form="ui-page-theme-a" class="ui-content">
 			<?php echo $deletemsg; ?>
@@ -206,20 +180,8 @@ _STRING;
 				</tbody>
 			</table>
             <div class="container">
-                <table data-role="table" id="comments_table" class="ui-responsive ui-table ui-corner-all">
-                    <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Time</th>
-                            <th>Comment</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php echo $pastComments; ?>
-                    </tbody>
-                </table>
+                <?php echo $pastComments; ?>
             </div>
-            <?php echo $user_id; ?>
             <?php echo $catastrophic; ?>
             <?php echo $addComment; ?>
 		</div>
