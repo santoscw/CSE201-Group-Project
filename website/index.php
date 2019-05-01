@@ -111,7 +111,7 @@
 						<p class="logomain">The Dog-alogue</p>
 					</div>
 					<?php echo $nav; ?>
-					<?php if ($level > 0) { echo $admin_nav;} ?>
+					<?php if ($level > 1) { echo $admin_nav;} ?>
 				</div>
 			</div>
 		</header>

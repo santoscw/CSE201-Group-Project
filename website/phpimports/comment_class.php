@@ -66,8 +66,6 @@ _STRING;
     /**
      * Creates the MySQL query based on the dog id.
      * 
-     * TODO
-     * 
      * @return: a string query
      * @access private
      */
@@ -90,7 +88,7 @@ _STRING;
     /**
      * Builds the comment table
      * 
-     * 
+     * If the user level is high enough, this will also have a 'Remove' column that works to remove comments
      * 
      * @access public
      */

@@ -128,7 +128,7 @@ _STRING;
     <div data-role="header" class="ui-header ui-bar-inherit">
         <h3 class="ui-title" role="heading">Search</h3>
         <?php echo $nav; ?>
-        <?php if ($level > 0) echo $admin_nav; ?>
+        <?php if ($level > 1) echo $admin_nav; ?>
     </div>
     <header class="main_nav">
     <form action="results.php" method="post" data-ajax="false">

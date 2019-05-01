@@ -160,7 +160,7 @@ _STRING;
 		<div data-role="header" class="ui-header ui-bar-inherit">
 			<h3 class="ui-title" role="heading"><?php echo $dog_name; ?></h3>
 				<?php echo $nav; ?>
-				<?php if ($level > 0) {
+				<?php if ($level > 1) {
                     echo $admin_nav;
                 } ?>
 		</div>
