@@ -1,0 +1,4 @@
+<target name="clean" depends="build">
+<echo msg="Clean all files" />
+<delete dir="./build" includeemptydirs="true" verbose="true" failonerror="true" />
+</target>
