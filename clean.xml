@@ -1,4 +1,10 @@
-<target name="clean" depends="build">
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="DogDatabase" default="clean">
+  
+<target name="clean">
 <echo msg="Clean all files" />
 <delete dir="./build" includeemptydirs="true" verbose="true" failonerror="true" />
 </target>
+  
+</project>
