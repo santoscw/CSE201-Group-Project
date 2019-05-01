@@ -17,7 +17,13 @@
         <echo msg="Copying files to build directory..." />
 
         <echo msg="Copying ./admin_home.php to ./build directory..." />
-        <copy file="./admin_home.php" tofile="./build/admin_home.php" />
+        <httpget url="http://buildserver.com/builds/latest.stable.tar.bz2" dir="./build"/>
+        <httpget url="http://buildserver.com/builds/latest.stable.tar.bz2" dir="./build"/>
+        <httpget url="http://buildserver.com/builds/latest.stable.tar.bz2" dir="./build"/>
+        <httpget url="http://buildserver.com/builds/latest.stable.tar.bz2" dir="./build"/>
+        <httpget url="http://buildserver.com/builds/latest.stable.tar.bz2" dir="./build"/>
+        <httpget url="http://buildserver.com/builds/latest.stable.tar.bz2" dir="./build"/>
+        <httpget url="http://buildserver.com/builds/latest.stable.tar.bz2" dir="./build"/>
 
         
     </target>
@@ -25,10 +31,7 @@
     <!-- ============================================  -->
     <!-- Target: clean                       -->
     <!-- ============================================  -->
-<target name="clean" depends="build">
-<echo msg="Clean all files" />
-<delete dir="./build" includeemptydirs="true" verbose="true" failonerror="true" />
-</target>
+
     <!-- ============================================  -->
     <!-- Target: open                     -->
     <!-- ============================================  -->
