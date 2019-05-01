@@ -15,27 +15,53 @@
     <!-- ============================================  -->
     <target name="build" depends="prepare">
         <echo msg="Copying files to build directory..." />
+        <property name="repo.dir" value="./build" />
+                <resolvepath propertyName="build.git" file="${build.dir}" />
 
-        <echo msg="Copying ./admin_home.php to ./build directory..." />
-        <httpget url="http://buildserver.com/builds/latest.stable.tar.bz2" dir="./build"/>
-        <httpget url="http://buildserver.com/builds/latest.stable.tar.bz2" dir="./build"/>
-        <httpget url="http://buildserver.com/builds/latest.stable.tar.bz2" dir="./build"/>
-        <httpget url="http://buildserver.com/builds/latest.stable.tar.bz2" dir="./build"/>
-        <httpget url="http://buildserver.com/builds/latest.stable.tar.bz2" dir="./build"/>
-        <httpget url="http://buildserver.com/builds/latest.stable.tar.bz2" dir="./build"/>
-        <httpget url="http://buildserver.com/builds/latest.stable.tar.bz2" dir="./build"/>
+                <!-- Clone repository -->
+        <gitclone
+                repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/admin_home.php"
+                targetPath="$build.git}" />
+        <gitclone
+                repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/breed.php"
+                targetPath="$build.git}" />
+        <gitclone
+                repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/dog.php"
+                targetPath="$build.git}" />
+        <gitclone
+                repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/index.php"
+                targetPath="$build.git}" />
+        <gitclone
+                repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/login.php"
+                targetPath="$build.git}" />
+        <gitclone
+                repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/results.php"
+                targetPath="$build.git}" />
+        <gitclone
+                repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/signup.php"
+                targetPath="$build.git}" />
+        <gitclone
+                repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/users.php"
+                targetPath="$build.git}" />
+
+        
+        <echo msg="All files downloaded" />
 
         
     </target>
 
     <!-- ============================================  -->
-    <!-- Target: clean                       -->
+    <!-- Target: change                       -->
     <!-- ============================================  -->
-
+    <target name="change"  depends="build">
+                <gitcommit
+                repository="/santoscw/CSE201-Group-Project/blob/master/website"
+                message="Commit message" allFiles="true" />
+        </target>
     <!-- ============================================  -->
     <!-- Target: open                     -->
     <!-- ============================================  -->
-<target name="open"  depends="clean">
+<target name="open"  depends="change">
 <http-request url="http://142.93.10.23/">
    <config name="adapter" value="HTTP_Request2_Adapter_Curl"/>
    <header name="user-agent" value="Phing HttpRequestTask"/>
