@@ -45,7 +45,7 @@
             
                 if ($usernameErr == null && $passwordErr == null && $emailErr == null && $error == null) {
                     $query = "INSERT INTO user (username, email, password) VALUES('$un_temp', '$email_temp', '$token')";
-                    $result = queryUser($query);
+                    $result = queryData($query);
                     if (!$result) {
                         die($connection->error);
 					}
