@@ -26,7 +26,7 @@
     }
     require_once 'phpimports/admin_nav.php';
 
-    $commentsErr = $submitmsg = $error = null;
+    $commentsErr = $submitmsg = $error = $query = null;
 	if (isset($_POST['comments'])) 
 	{
         $comment_temp = mysql_sanitize_db_input_info($_POST['comments']);
@@ -38,17 +38,19 @@
 			$commentsErr = "*Required";
 		}
 		if ($commentsErr == null) {
-			$query = "INSERT INTO commentDog (dog_id, user_id, comment) VALUES ('$dog_id', '$user_id', '$comment_temp')";
+            $query = <<<_STRING
+            INSERT INTO `commentDog` (dog_id, user_id, comment) VALUES ('$dog_id', '$user_id', '$comment_temp')
+_STRING;
 			$result = queryData($query);
 			
             if (!$result) 
-                $catastrophic = $connection->error;
+                $catastrophic = $data->error;
 			else
 			{
 				$submitmsg = "<p class='submit'>Thanks for the comment!</p>";
             }
-            $result->close();
-		}
+        }
+        $_SESSION['entry'] = $dog_id;
 	}
 
     
@@ -57,7 +59,10 @@
     }
     
     $target = NULL;
-    if (isset($_POST['entry'])) {
+    if (isset($_POST['dogid'])) {
+        $target = $_POST['dogid'];
+        $_SESSION['entry'] = $target;
+    } else if (isset($_POST['entry'])) {
         $target = $_POST['entry'];
         $_SESSION['entry'] = $target;
     } else {
@@ -70,7 +75,6 @@
     t1.age AS age,
     t2.name AS breed,
     t3.name AS shelter,
-    t1.id AS id,
     t1.img AS img
     FROM `dog` AS t1 
     LEFT JOIN `breed` AS t2 ON t1.breed_id = t2.id 
@@ -101,6 +105,7 @@ _STRING;
 _STRING;
     $outputtable = $outputtable . $outputrow;
     $dog_name = $row['name'];
+    $result->close();
 
     $user_id = $_SESSION['userid'];
     if (isset($_SESSION['userid'])) {
@@ -130,7 +135,7 @@ _STRING;
                 <div class="row">
                     <div class="container">
                         <div class="twelve columns">
-                            <input type="submit" value="Submit" class="ui-btn ui-input-btn ui-btn-icon-right ui-icon-comment ui-corner-all" data-form="ui-btn-up-a" id="submitProxy" />
+                            <input type="submit" value="Submit" class="ui-btn ui-input-btn ui-btn-icon-right ui-icon-comment ui-corner-all" data-form="ui-btn-up-a" />
                             $submitmsg
                         </div>
                     </div>
@@ -182,6 +187,7 @@ _STRING;
                 <?php echo $pastComments; ?>
             </div>
             <?php echo $addComment; ?>
+            <?php echo $catastrophic; ?>
 		</div>
 	</body>
 </html>

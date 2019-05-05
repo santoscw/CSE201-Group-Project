@@ -155,22 +155,12 @@
 		</div>
 		<div class="container">
 			<div data-form="ui-body-a" data-theme="a" class="ui-body ui-body-a ui-corner-all">
-				<div class="container">
 					<div class="row twelve columns">
-						<div class="modal bnr-modal fade" id="myModal" tabindex="-1" role="dialog">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-body modal-spa">
-										<h3> Our Mission </h3>
-										<p>We are surrounded by many kinds of dogs every day, but do you really understand them? Do you know their breed? Their history, 
-										habits, bloodlines, etc., each is their best description. Our website is dedicated to collecting the types and information of dogs, 
-										allowing more people to understand the dog and adopting a dog that suits their environment in a certain way. </p>
-									</div> 
-								</div>
-							</div>
-						</div>
+						<h3> Our Mission </h3>
+						<p style="margin-bottom: 0">We are surrounded by many kinds of dogs every day, but do you really understand them? Do you know their breed? Their history, 
+						habits, bloodlines, etc., each is their best description. Our website is dedicated to collecting the types and information of dogs, 
+						allowing more people to understand the dog and adopting a dog that suits their environment in a certain way. </p>
 					</div>
-				</div>
 			</div>
 		</div>
 		<footer data-role="footer" data-position="fixed">

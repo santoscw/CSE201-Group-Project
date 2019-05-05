@@ -50,7 +50,7 @@ if (isset($_POST['breed'])) {
 		$imageErr = "*Required";
 	}
 	if ($nameErr == null && $sectionErr == null && $countryErr == null && $imageErr == null) {
-		$query = "INSERT INTO dog (name, section, country, image) VALUES ('$name_temp', '$section_temp', '$country_temp', '$image_temp')";
+		$query = "INSERT INTO breed (name, type, country, image) VALUES ('$name_temp', '$section_temp', '$country_temp', '$image_temp')";
 		$result = queryData($query);
 		
 		if (!$result) {

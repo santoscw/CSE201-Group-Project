@@ -142,7 +142,7 @@ _STRING;
                         <div data-role="header" data-theme="a" class="ui-corner-top ui-header ui-bar-a" role="banner">
                             <h1 class="ui-title">Are you sure?</h1>
                         </div>
-                        <div class="ui-corner-bottome ui-content">
+                        <div class="ui-corner-bottom ui-content">
                             <form data-form="ui-body-a" method="post" action="$documentfunc" data-ajax="false">
                                 <h3 class="ui-title">Are you sure you want to delete this comment?</h3>
                                 <p>This CANNOT be undone.</p>
