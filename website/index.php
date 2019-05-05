@@ -85,7 +85,7 @@
 			</div>
 		</header>
 		<div class="container">
-		<div data-role="collapsible">
+		<div data-role="collapsible" data-collapsed-icon="search" data-expanded-icon="search">
 			<h4>Search</h4>
 			<form action="results.php" method="post" data-ajax="false">
 				<div class="container">
@@ -110,14 +110,14 @@
 					</div>
 				</div>
 				<div class="container">
-					<div class="ten columns">
+					<div class="nine columns">
 						<div class="ui-field-contain">
 						<label for="name">Search Term:</label>
 						<input type="search" class="sb-search-input" name="name" placeholder="Enter your search term..." id="search" >
 					</div>
 					</div>
-					<div class="two columns">
-						<input type="submit" class="ui-btn ui-input-btn ui-corner-all submitProxy" value="Search" />
+					<div class="three columns">
+						<input type="submit" data-icon="search" class="ui-btn ui-input-btn ui-corner-all submitProxy" value="Search" />
 					</div>
 				</div>
 			</form>

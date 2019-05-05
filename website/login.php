@@ -51,7 +51,7 @@
 		<?php echo $headerImport; ?>
 		<script type="text/javascript">
 			$(function() {
-				$("a#submitProxy").on("click", function(e) {
+				$("a.submitProxy").on("click", function(e) {
 					e.preventDefault();
 					$(this).closest("form").submit();
 				});
@@ -88,7 +88,7 @@
 						</li>
 						<?php echo $error;?>
 						<li class="ui-last-child">
-							<input type="submit" class="ui-btn ui-input-btn ui-btn-icon-right ui-icon-lock" data-form="ui-btn-up-a" id="submitProxy" value="Log In" />
+							<a class="ui-btn ui-input-btn ui-btn-icon-right ui-icon-lock submitProxy" data-form="ui-btn-up-a">Log In</a>
 						</li>
 					</ul>
 				</form>
