@@ -57,11 +57,11 @@
     }
     
     $target = NULL;
-    if (isset($_SESSION['entry'])) {
-        $target = $_SESSION['entry'];
-    } else {
+    if (isset($_POST['entry'])) {
         $target = $_POST['entry'];
         $_SESSION['entry'] = $target;
+    } else {
+        $target = $_SESSION['entry'];
     }
 
     $query  = <<<_STRING
