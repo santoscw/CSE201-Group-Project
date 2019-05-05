@@ -156,6 +156,6 @@ select, option {
 }
 
 img {
-	max-width: 3em;
-	max-height: 2em;
+	max-width: 40%;
+	max-height: 30%;
 }

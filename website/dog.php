@@ -70,7 +70,8 @@
     t1.age AS age,
     t2.name AS breed,
     t3.name AS shelter,
-    t1.id AS id 
+    t1.id AS id,
+    t1.img AS img
     FROM `dog` AS t1 
     LEFT JOIN `breed` AS t2 ON t1.breed_id = t2.id 
     LEFT JOIN `shelter` AS t3 ON t1.shelter_id = t3.id
@@ -85,12 +86,18 @@ _STRING;
     $row = $result->fetch_array(MYSQLI_ASSOC);
     $documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]);
     $outputrow = <<<_STRING
-    <tr>
-    <td>{$row['name']}</td>
-    <td>{$row['age']}</td>
-    <td>{$row['breed']}</td>
-    <td>{$row['shelter']}</td>
-    </tr>
+    <div class="row six columns">
+    <div class="row"><h2>{$row['name']}</h2></div>
+    <h4>Age: {$row['age']}</h4>
+    <h4>Breed: {$row['breed']}</h4>
+    <h4>Shelter: {$row['shelter']}</h4>
+
+    </div>
+    <div class="row six columns">
+    <img src="{$row['img']}" />
+
+    </div>
+    
 _STRING;
     $outputtable = $outputtable . $outputrow;
     $dog_name = $row['name'];
@@ -165,24 +172,15 @@ _STRING;
                 } ?>
 		</div>
 		<div id="mainArea" data-form="ui-page-theme-a" class="ui-content">
-			<?php echo $deletemsg; ?>
-            <table data-role="table" id="search_table" data-mode="columntoggle" class="ui-responsive ui-table ui-corner-all">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th data-priority="4">Age</th>
-                        <th data-priority="2">Breed</th>
-                        <th data-priority="3">Shelter</th>
-                    </tr>
-                </thead>
-                <tbody>
-					<?php echo $outputtable; ?>
-				</tbody>
-			</table>
+            <div class="container">
+                <?php echo $outputtable; ?>
+            </div>
+            <div class="container">
+                <?php echo $deletemsg; ?>
+            </div>
             <div class="container">
                 <?php echo $pastComments; ?>
             </div>
-            <?php echo $catastrophic; ?>
             <?php echo $addComment; ?>
 		</div>
 	</body>

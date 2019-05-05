@@ -131,37 +131,41 @@ _STRING;
         <?php if ($level > 1) echo $admin_nav; ?>
     </div>
     <header class="main_nav">
-    <form action="results.php" method="post" data-ajax="false">
-
-        <div class="container">
-                <div class="six columns">
-					<label for="db" class="select"></label>
-					<select name="db" id="db" data-native-menu="false" required="required">
-						<option value="" data-placeholder="true">Choose...</option>
-						<option value="dog">Dog</option>
-						<option value="breed">Breed</option>
-						<option value="shelter">Shelter</option>
-					</select>
-				</div>
-				<div class="six columns" >
-					<label for="column"></label>
-					<select name='column' id="column" data-native-menu="false" required>
-						<option value='' data-placeholder='true'>Choose...</option>
-					</select>
-				</div>
-            </div>
+        <form action="results.php" method="post" data-ajax="false">
             <div class="container">
-				<div class="ten columns">
-					<div id="sb-search" class="sb-search">
-							<input type="search" class="sb-search-input" name="name" placeholder="Enter your search term..." id="search" required="">
-					</div>
-				</div>
-				<div class="two columns">
-					<input type="submit" class="ui-btn ui-input-btn ui-corner-all submitProxy" value="Search" />
-				</div>
-        </div>
+                    <div class="six columns">
+                        <div class="ui-field-contain">
+                        <label for="db" class="select">Search for:</label>
+                        <select name="db" id="db" data-native-menu="false" required="required">
+                            <option value="" data-placeholder="true">Choose...</option>
+                            <option value="dog">Dog</option>
+                            <option value="breed">Breed</option>
+                            <option value="shelter">Shelter</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="six columns" >
+                        <div class="ui-field-contain">
+                        <label for="column">Search by:</label>
+                        <select name='column' id="column" data-native-menu="false" required>
+                            <option value='' data-placeholder='true'>Choose...</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="ten columns">
+                        <div class="ui-field-contain">
+                        <label for="name">Search Term:</label>
+                        <input type="search" class="sb-search-input" name="name" placeholder="Enter your search term..." id="search" >
+                    </div>
+                    </div>
+                    <div class="two columns">
+                        <input type="submit" class="ui-btn ui-input-btn ui-corner-all submitProxy" value="Search" />
+                    </div>
+                </div>
+            </div>
         </form>
-
     </header>
     <div id="mainArea" data-form="ui-page-theme-a" class="ui-content">
         <?php echo $outputtable; ?>
