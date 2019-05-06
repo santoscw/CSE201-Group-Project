@@ -221,17 +221,16 @@ _STRING;
             }
         } else if ($this->_table == "shelter") {
             switch ($this->_column) {
-                case 'name':
-					//                         t2.name AS city,
-					//                    LEFT JOIN `city` AS t2 ON t1.city_id = t2.id 
+                case 'name':                 
                     $query  = <<<_STRING
                     SELECT 
                         t1.name AS name,
-
+                        t1.address AS address,
+                        t2.city AS city,
                         t1.phone AS phone,
                         t1.id AS id 
                     FROM `shelter` AS t1 
-
+                    LEFT JOIN `city` AS t2 ON t1.city_id = t2.id 
                     WHERE t1.name LIKE '%$this->_term%' 
 _STRING;
                     break;
@@ -239,9 +238,12 @@ _STRING;
                     $query  = <<<_STRING
                     SELECT 
                         t1.name AS name,
+                        t1.address AS address,
+                        t2.city AS city,
                         t1.phone AS phone,
                         t1.id AS id
                     FROM `shelter` AS t1 
+                    LEFT JOIN `city` AS t2 ON t1.city_id = t2.id 
                     WHERE t2.name LIKE '%$this->_term%' 
 _STRING;
 
@@ -250,9 +252,12 @@ _STRING;
                     $query  = <<<_STRING
                     SELECT 
                         t1.name AS name,
+                        t1.address AS address,
+                        t2.city AS city,
                         t1.phone AS phone,
                         t1.id AS id
                     FROM `shelter` AS t1 
+                    LEFT JOIN `city` AS t2 ON t1.city_id = t2.id 
 _STRING;
                     break;
             }
@@ -359,6 +364,8 @@ _STRING;
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th data-priority="2">Address</th>
+                            <th data-priority="2">City</th>
                             <th data-priority="3">Phone</th>
                             <th data-priority="1">Look at</th>
                         </tr>
@@ -368,11 +375,11 @@ _STRING;
                 for ($j = 0; $j < $rows; ++$j) {
                     $result->data_seek($j);
                     $row = $result->fetch_array(MYSQLI_ASSOC);
-					// <td>{$row['city']}</td>
                     $outputrow = <<<_STRING
                     <tr>
                         <td>{$row['name']}</td>
-                        
+                        <td>{$row['address']}</td>
+                        <td>{$row['city']}</td>
                         <td>{$row['phone']}</td>
                         <td>
                             <form data-form="ui-body-a" method="post" action="shelter.php" data-ajax="false">

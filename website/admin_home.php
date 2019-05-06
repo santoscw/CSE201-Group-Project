@@ -98,6 +98,15 @@ if (isset($_POST['breedadd'])) {
 	}
 }
 
+if (isset($_POST['dogremove'])) {
+	$remtarget = $_POST['dogremove'];
+	$query = "DELETE FROM `dog_req` WHERE id = $remtarget";
+	$result = queryData($query);
+	if (!$result) {
+		die($data->error);
+	}
+}
+
 if (isset($_POST['dogadd']) ) {
 	if ($_POST['dogadd'] != "yes") {
 		$reqtarget = $_POST['dogadd'];
@@ -191,6 +200,8 @@ if (!result) {
 					<p>Req'd by: {$row['username']}</p>
 				</div>
 			</div>
+			<div class="row">
+			<div class="six columns">
 			<form action="$documentfunc" method="post" data-ajax="false">
 				<input type="hidden" name="dogadd" value="{$row['id']}" />
 				<input type="hidden" name="name3" value="{$row['name']}" />
@@ -200,6 +211,14 @@ if (!result) {
 				<input type="hidden" name="image2" value="{$row['img']}" />
 				<a class="ui-btn ui-input-btn ui-btn-icon-right ui-icon-check ui-corner-all submitProxy" data-form="ui-btn-up-a">Approve</a>
 			</form>
+			</div>
+			<div class="six columns">
+			<form action="$documentfunc" method="post" data-ajax="false">
+			<input type="hidden" name="dogremove" value="{$row['id']}" />
+			<a class="ui-btn ui-input-btn ui-btn-icon-right ui-icon-delete ui-corner-all submitProxy" data-form="ui-btn-up-a">Deny</a>
+			</form>
+			</div>
+			</div>
 		</div>
 _STRING;
 		$dogtable = $dogtable . $dogrow;
