@@ -90,6 +90,7 @@
 				<?php echo $nav; ?>
 			</header>
 			<div id="mainArea" class="ui-content" data-form="ui-page-theme-a">
+			<div class="container">
 				<form data-form="ui-body-a" id="registerForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" data-ajax="false">
 					<ul data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow" id="loginBox">
 						<li data-role="list-divider" data-form="ui-bar-a" role="heading" class="ui-li-divider ui-bar-inherit ui-first-child">
@@ -121,6 +122,7 @@
 						</li>
 					</ul>
 				</form>
+			</div>
 			</div>
 		</div>
 	</body>

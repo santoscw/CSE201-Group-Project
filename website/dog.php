@@ -86,6 +86,7 @@ _STRING;
     $row = $result->fetch_array(MYSQLI_ASSOC);
     $documentfunc = htmlspecialchars($_SERVER["PHP_SELF"]);
     $outputrow = <<<_STRING
+    <div data-form="ui-body-a" data-theme="a" class="ui-body ui-body-a ui-corner-all">
     <div class="row six columns">
     <div class="row"><h2>{$row['name']}</h2></div>
     <h4>Age: {$row['age']}</h4>
@@ -94,10 +95,11 @@ _STRING;
 
     </div>
     <div class="row six columns">
+    <figure>
     <img src="{$row['img']}" />
-
+    </figure>
     </div>
-    
+    </div>
 _STRING;
     $outputtable = $outputtable . $outputrow;
     $dog_name = $row['name'];

@@ -71,27 +71,29 @@
 				<?php echo $nav; ?>
 			</header>
 			<div id="mainArea" class="ui-content" data-form="ui-page-theme-a">
-				<form data-form="ui-body-a" id="loginForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" data-ajax="false">
-					<ul data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow" id="loginBox">
-						<li data-role="list-divider" data-form="ui-bar-a" role="heading" class="ui-li-divider ui-bar-inherit ui-first-child">
-							<span>Log In</span>
-						</li>
-						<li data-form="ui-body-a" class="ui-li-static ui-field-contain">
-							<label for="username">Username: </label>
-							<input type="text" name="username" data-mini="true" autofocus />
-							<span class="ui-custom-inherit"><?php echo $usernameErr;?></span>
-						</li>
-						<li data-form="ui-body-a" class="ui-li-static ui-field-contain">
-							<label for="password">Password: </label>
-							<input type="password" name="password" data-mini="true" />
-							<span class="ui-custom-inherit"><?php echo $passwordErr;?></span>
-						</li>
-						<?php echo $error;?>
-						<li class="ui-last-child">
-							<a class="ui-btn ui-input-btn ui-btn-icon-right ui-icon-lock submitProxy" data-form="ui-btn-up-a">Log In</a>
-						</li>
-					</ul>
-				</form>
+				<div class="container">
+					<form data-form="ui-body-a" id="loginForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" data-ajax="false">
+						<ul data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow" id="loginBox">
+							<li data-role="list-divider" data-form="ui-bar-a" role="heading" class="ui-li-divider ui-bar-inherit ui-first-child">
+								<span>Log In</span>
+							</li>
+							<li data-form="ui-body-a" class="ui-li-static ui-field-contain">
+								<label for="username">Username: </label>
+								<input type="text" name="username" data-mini="true" autofocus />
+								<span class="ui-custom-inherit"><?php echo $usernameErr;?></span>
+							</li>
+							<li data-form="ui-body-a" class="ui-li-static ui-field-contain">
+								<label for="password">Password: </label>
+								<input type="password" name="password" data-mini="true" />
+								<span class="ui-custom-inherit"><?php echo $passwordErr;?></span>
+							</li>
+							<?php echo $error;?>
+							<li class="ui-last-child">
+								<a class="ui-btn ui-input-btn ui-btn-icon-right ui-icon-lock submitProxy" data-form="ui-btn-up-a">Log In</a>
+							</li>
+						</ul>
+					</form>
+				</div>
 			</div>
 		</div>
 	</body>
