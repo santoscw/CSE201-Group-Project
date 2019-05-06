@@ -27,6 +27,12 @@
     require_once 'phpimports/admin_nav.php';
 
     $commentsErr = $submitmsg = $error = $query = null;
+
+    if (isset($_POST['delete'])) {
+        $delTar = $_POST['delete'];
+        $submitmsg = delComment($delTar);
+    }
+
 	if (isset($_POST['comments'])) 
 	{
         $comment_temp = mysql_sanitize_db_input_info($_POST['comments']);
@@ -38,17 +44,7 @@
 			$commentsErr = "*Required";
 		}
 		if ($commentsErr == null) {
-            $query = <<<_STRING
-            INSERT INTO `commentDog` (dog_id, user_id, comment) VALUES ('$dog_id', '$user_id', '$comment_temp')
-_STRING;
-			$result = queryData($query);
-			
-            if (!$result) 
-                $catastrophic = $data->error;
-			else
-			{
-				$submitmsg = "<p class='submit'>Thanks for the comment!</p>";
-            }
+            $submitmsg = addComment($dog_id, $user_id, $comment_temp);
         }
         $_SESSION['entry'] = $dog_id;
 	}
@@ -135,7 +131,7 @@ _STRING;
                 <div class="row">
                     <div class="container">
                         <div class="twelve columns">
-                            <input type="submit" value="Submit" class="ui-btn ui-input-btn ui-btn-icon-right ui-icon-comment ui-corner-all" data-form="ui-btn-up-a" />
+                            <input type="submit" value="Submit" class="ui-btn ui-input-btn ui-btn-icon-right ui-icon-comment ui-corner-all" data-iconpos="right" data-icon="comment" data-form="ui-btn-up-a" />
                             $submitmsg
                         </div>
                     </div>

@@ -3,6 +3,43 @@
 require_once('functions.php');
 
 /**
+ * Adds a comment to the comments table
+ * 
+ * @return string  the success or fail message
+ */
+function addComment($dog_id, $user_id, $comment) {
+    $query = <<<_STRING
+        INSERT INTO `commentDog` (dog_id, user_id, comment) VALUES ('$dog_id', '$user_id', '$comment')
+_STRING;
+    $result = queryData($query);
+    
+    if (!$result) 
+        return $data->error;
+    else
+    {
+        return "<p class='submit'>Thanks for the comment!</p>";
+    }
+}
+
+/**
+ * Deletes a comment from the comments table
+ * 
+ * @return string  the success or fail message
+ */
+function delComment ($commentid) {
+    $query = <<<_STRING
+        DELETE FROM `commentDog` WHERE id = $commentid
+_STRING;
+
+    $result = queryData($query);
+
+    if (!$result)
+        return $data->error;
+    else
+        return "<p class='submit'>Comment successfully deleted</p>";
+}
+
+/**
  * TODO
  * 
  * @author      Benjamin Arehart <benjamin@arehart.com>
@@ -123,7 +160,7 @@ _STRING;
                 if ($this->_user_level >= 1) {
                     $mod_body = <<<_STRING
                 <td>
-                    <a href="#confirm{$row['uid']}" data-rel="popup" data-role="button" data-transition="pop" class="ui-btn ui-btn-icon-right ui-icon-delete">REMOVE</a>
+                    <a href="#confirm{$row['uid']}" data-rel="popup" data-role="button" data-transition="pop" class="ui-btn ui-btn-icon-right ui-icon-delete ui-corner-all">REMOVE</a>
                 </td>
 _STRING;
                 }
