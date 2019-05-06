@@ -103,23 +103,22 @@ _STRING;
                 $(this).closest("form").submit();
             });
             $("#column").selectmenu("disable");
-				$("#db").change(function() {
-					var value = $(this).val();
-					if(value == "") {
-						$("#column").html("<option value='' data-placeholder='true'>Choose...</option>");
-					} else {
-						if (value == "dog") {
-							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='breed'>Breed</option><option value='shelter'>Shelter</option>");
-						} else if (value == "breed") {
-							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='type'>Type</option>");
-						} else if (value == "shelter") {
-							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='city'>City</option>");
-						}
-						$("#column").selectmenu("enable");
-					}
-					$("#column").selectmenu("refresh");
-				});
-
+            $("#db").change(function() {
+                var value = $(this).val();
+                if(value == "") {
+                    $("#column").html("<option value='' data-placeholder='true'>Choose...</option>");
+                } else {
+                    if (value == "dog") {
+                        $("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='breed'>Breed</option><option value='shelter'>Shelter</option>");
+                    } else if (value == "breed") {
+                        $("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='type'>Type</option>");
+                    } else if (value == "shelter") {
+                        $("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='city'>City</option>");
+                    }
+                    $("#column").selectmenu("enable");
+                }
+                $("#column").selectmenu("refresh");
+            });
         });
     </script>
 </head>

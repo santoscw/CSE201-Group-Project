@@ -6,7 +6,7 @@ $action = htmlspecialchars($_SERVER["PHP_SELF"]);
 if (!($loggedin)) {
 	$login = "<li><a href='login.php' class='ui-btn-icon-left ui-icon-lock $loginactive' title='Login' data-ajax='false'>Login</a></li>";
 	$login = $login . "<li><a href='signup.php' class='ui-btn-icon-left ui-icon-user $registeractive' title='Register' data-ajax='false'>Register</a></li>";
-
+	$request = "<li><a class='ui-btn-icon-left ui-icon-plus ui-disabled $requestactive' disabled data-ajax='false'>Request Entry</a></li>";
 }
 
 if ($loggedin) {
@@ -22,8 +22,8 @@ $nav = <<<_END
 	<ul class="MenuBarHorizontal">
 		<li><a href="index.php" class="ui-btn-icon-left ui-icon-home $homeactive" title="Home" data-ajax="false">Home</a></li>
 		<li><a href="results.php" class="ui-btn-icon-left ui-icon-search $breedlistactive" data-ajax="false">Search</a></li>
-		$login
 		$request
+		$login
 		$logout
 	</ul>
 	$formb
