@@ -141,7 +141,16 @@ _STRING;
     
 _STRING;
     
-    } 
+    } else {
+        $addComment = <<<_STRING
+            <div class="container">
+                <div data-form="ui-body-a" id="contactSection" data-theme="a" class="ui-body ui-body-a ui-corner-all">
+                    <h4>Notice: </h4>
+                    <p>You must be logged in to add a comment!</p>
+                </div>
+            </div>
+_STRING;
+    }
 
 
     $commentEngine = new CommentTable($user_id, $target);

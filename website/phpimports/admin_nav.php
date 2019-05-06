@@ -10,6 +10,7 @@ if (!($loggedin)) {
 }
 
 if ($loggedin) {
+	$request = "<li><a href='request.php' class='ui-btn-icon-left ui-icon-plus $requestactive' data-ajax='false'>Request Entry</a></li>";
 	$forma = "<form data-form='ui-body-a' id='loginForm' method='post' action='$action' data-ajax='false'><input type='hidden' value='logout' name='logout' />";
 	$logout = '<li><a class="submitProxy ui-btn-icon-left ui-icon-minus" data-form="ui-btn-up-a" data-ajax="false">Logout</a></li>';
 	$formb = '</form>';
@@ -22,6 +23,7 @@ $nav = <<<_END
 		<li><a href="index.php" class="ui-btn-icon-left ui-icon-home $homeactive" title="Home" data-ajax="false">Home</a></li>
 		<li><a href="results.php" class="ui-btn-icon-left ui-icon-search $breedlistactive" data-ajax="false">Search</a></li>
 		$login
+		$request
 		$logout
 	</ul>
 	$formb
@@ -32,7 +34,7 @@ _END;
 $admin_nav = <<<_END
 <nav data-role="navbar">
 	<ul id="MenuBar1" class="MenuBarHorizontal">
-		<li><a href="admin_home.php" class="$ahomeactive" data-ajax="false">Admin Home</a></li>
+		<li><a href="admin_home.php" class="$ahomeactive ui-btn-icon-left ui-icon-plus" data-ajax="false">Add Entries</a></li>
 		<li><a href="users.php" class="ui-btn-icon-left ui-icon-user $commentsactive" data-ajax="false">User Management</a></li>
 	</ul>
 </nav>
