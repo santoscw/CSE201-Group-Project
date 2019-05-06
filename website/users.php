@@ -1,6 +1,7 @@
 <?php
     require_once 'phpimports/header.php';
-    $commentsactive = "ui-btn-active ui-state-persist";
+	$commentsactive = "ui-btn-active ui-state-persist";
+	require_once 'phpimports/user_functions.php';
     
     session_start();
     $username = null;
@@ -29,23 +30,9 @@
     require_once 'phpimports/admin_nav.php';
     
     if (isset($_POST['admin'])) {
-        $admin_target = $_POST['admin'];
-        $query = "UPDATE `user` SET `level` = '2' WHERE `user`.`uid` = $admin_target";
-        $result = queryData($query);
-        if (!$result) {
-            die($connection->error);
-        } else {
-            $adminmsg = "Successfully updated.";
-        }
+        $adminmsg = makeAdmin($_POST['admin']);
     } else if (isset($_POST['mod'])) {
-        $mod_target = $_POST['mod'];
-        $query = "UPDATE `user` SET `level` = '1' WHERE `user`.`uid` = $mod_target";
-        $result = queryData($query);
-        if (!$result) {
-            die($connection->error);
-        } else {
-            $adminmsg = "Successfully updated.";
-        }
+        $modmsg = makeMod($_POST['mod']);
     }
     $query  = "SELECT `uid`, `username`, `email`, `level` FROM user ORDER BY `username` ASC";
     $result = queryData($query);
@@ -143,7 +130,8 @@ _POPUP;
 				<?php echo $admin_nav; ?>
 		</div>
 		<div id="mainArea" data-form="ui-page-theme-a" class="ui-content">
-			<?php echo $deletemsg; ?>
+			<?php echo $adminmsg; ?>
+			<?php echo $modmsg; ?>
 			<table data-role="table" id="commentsTable" data-mode="columntoggle" class="ui-responsive ui-table ui-corner-all">
 				<thead>
 					<tr>
