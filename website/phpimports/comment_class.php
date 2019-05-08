@@ -1,6 +1,6 @@
 <?php
 
-require_once('functions.php');
+require_once 'functions.php';
 
 /**
  * Adds a comment to the comments table

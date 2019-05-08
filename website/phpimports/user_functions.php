@@ -1,10 +1,11 @@
 <?php
-    require_once 'phpimports/functions.php';
+    require_once 'functions.php';
     
     /**
-     * function to update a user with admin permissions
-     * 
-     * @return string  the error message if the query failed, or success message if it didn't
+     * updates a user with admin permissions
+     *
+     * @param int $admin_target     The id of the user to change the permissions of.
+     * @return string
      */
     function makeAdmin($admin_target) {
         $query = "UPDATE `user` SET `level` = '2' WHERE `user`.`uid` = $admin_target";
@@ -17,9 +18,10 @@
     }
 
     /**
-     * function to update a user with moderator permissions
-     * 
-     * @return string  the error message if the query failed, or success message if it didn't
+     * updates a user with moderator permissions
+     *
+     * @param int $mod_target   The id of the user to change the permissions of.
+     * @return string
      */
     function makeMod($mod_target) {
         $query = "UPDATE `user` SET `level` = '1' WHERE `user`.`uid` = $mod_target";

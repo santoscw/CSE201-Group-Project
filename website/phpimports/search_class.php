@@ -1,6 +1,6 @@
 <?php
 
-require_once('functions.php');
+require_once 'functions.php';
 
 /**
  * A search utility to account for multiple different queries, and aiding in pagination
