@@ -13,7 +13,7 @@ require_once('functions.php');
  * As of now, pagination is handled using $_offset.
  * 
  * @author      Benjamin Arehart <benjamin@arehart.com>
- * @version     v2.6
+ * @version     v2.6.2
  * @since       Class available since v2.1 of Advanced Search Utility
  */
 class Search {
@@ -139,6 +139,7 @@ class Search {
                     LEFT JOIN `breed` AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN `shelter` AS t3 ON t1.shelter_id = t3.id
                     WHERE t1.name LIKE '%$this->_term%' 
+                    ORDER BY t1.name ASC
 _STRING;
                     break;
                 case 'breed':
@@ -153,6 +154,7 @@ _STRING;
                     LEFT JOIN `breed` AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN `shelter` AS t3 ON t1.shelter_id = t3.id
                     WHERE t2.name LIKE '%$this->_term%' 
+                    ORDER BY t2.name ASC
 _STRING;
 
                     break;
@@ -168,6 +170,7 @@ _STRING;
                     LEFT JOIN `breed` AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN `shelter` AS t3 ON t1.shelter_id = t3.id
                     WHERE t3.name LIKE '%$this->_term%' 
+                    ORDER BY t3.name ASC
 _STRING;
                     break;
                 default:
@@ -181,6 +184,7 @@ _STRING;
                     FROM `dog` AS t1 
                     LEFT JOIN `breed` AS t2 ON t1.breed_id = t2.id 
                     LEFT JOIN `shelter` AS t3 ON t1.shelter_id = t3.id
+                    ORDER BY t1.name ASC
 _STRING;
                     break;
             }
@@ -195,6 +199,7 @@ _STRING;
                         t1.id AS id
                     FROM `breed` AS t1
                     WHERE t1.name LIKE '%$this->_term%'
+                    ORDER BY t1.name ASC
 _STRING;
                     break;
                 case 'type':
@@ -206,6 +211,7 @@ _STRING;
                         t1.id AS id
                     FROM `breed` AS t1 
                     WHERE t1.type LIKE '%$this->_term%' 
+                    ORDER BY t1.type ASC
 _STRING;
                     break;
                 default:
@@ -216,6 +222,7 @@ _STRING;
                         t1.type AS type,
                         t1.id AS id
                     FROM `breed`
+                    ORDER BY t1.name ASC
 _STRING;
                     break;
             }
@@ -232,6 +239,7 @@ _STRING;
                     FROM `shelter` AS t1 
                     LEFT JOIN `city` AS t2 ON t1.city_id = t2.id 
                     WHERE t1.name LIKE '%$this->_term%' 
+                    ORDER BY t1.name ASC 
 _STRING;
                     break;
                 case 'city':
@@ -244,7 +252,8 @@ _STRING;
                         t1.id AS id
                     FROM `shelter` AS t1 
                     LEFT JOIN `city` AS t2 ON t1.city_id = t2.id 
-                    WHERE t2.name LIKE '%$this->_term%' 
+                    WHERE t2.city LIKE '%$this->_term%' 
+                    ORDER BY t2.city ASC
 _STRING;
 
                     break;
@@ -258,6 +267,7 @@ _STRING;
                         t1.id AS id
                     FROM `shelter` AS t1 
                     LEFT JOIN `city` AS t2 ON t1.city_id = t2.id 
+                    ORDER BY t1.name ASC 
 _STRING;
                     break;
             }
@@ -282,7 +292,7 @@ _STRING;
         if (intval($this->_offset) != 0) {
             $set = " OFFSET " . intval($this->_offset);
         }
-        $query = $query . "ORDER BY t1.name ASC LIMIT 10 $set";
+        $query = $query . " LIMIT 10 $set";
         $result = queryData($query);
         if (!$result) {
             return "MySQL Query error. Will be rectified shortly. \n" . $data->error;
