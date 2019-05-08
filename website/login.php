@@ -7,7 +7,7 @@
 
 	require_once 'phpimports/admin_nav.php';
 
-    
+	// login process -- if username and password are submitted, check them. If they match, log the user in
     if (isset($_POST['username']) && isset($_POST['password'])) {
         $un_temp = mysql_sanitize_db_input_info($_POST['username']);
         $token = mysql_sanitize_password($_POST['password']);
@@ -39,7 +39,8 @@
             $passwordErr = "*Required";
             $error = null;
         }
-    }
+	}
+	// end login process
 ?>
 <!DOCTYPE html>
 <html>
