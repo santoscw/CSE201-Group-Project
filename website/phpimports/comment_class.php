@@ -40,16 +40,21 @@ _STRING;
 }
 
 /**
- * TODO
+ * A class to retrieve and display comments on dog pages and aid in managing these comments.
+ * 
+ * This class takes in the user id of the active user, the dog id of the dog currently being looked at, and
+ * stores the permission level of the active user.
  * 
  * @author      Benjamin Arehart <benjamin@arehart.com>
- * @version     v1.1
+ * @version     v1.3
  * @since       Class available since v1.1 of Comment Page
  */
 class CommentTable {
 
     /**
-     * TODO
+     * Stores the user identifier
+     * 
+     * Helps us figure out what user is interacting with the page.
      * 
      * @var int
      * @access private
@@ -67,7 +72,10 @@ class CommentTable {
     private $_dog_id;
 
     /**
-     * TODO
+     * Contains the level of user permissions
+     * 
+     * This helps to determine whether or not the active user has permission
+     * to delete comments from dog pages
      * 
      * @var int
      * @access private
@@ -194,12 +202,10 @@ _STRING;
                 $pastComments = $pastComments . $commentRow;
             }
             $pastComments = $pastComments . "</tbody></table>" . $modPopup;
-            $result->close();
+            closeData();
             return $pastComments;
         }
     }
-
-
 
 }
 
