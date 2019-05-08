@@ -43,11 +43,10 @@
 	/**
 	 * main function to clean up a password string to help in checking against a database.
 	 * 
-	 * does the same thing as mysql_sanitize_db_input_info(), but is semantically created to specifically
+	 * Does the same thing as mysql_sanitize_db_input_info(), but is semantically created to specifically
 	 * handle passwords.
 	 * 
-	 * @see mysql_sanitize_db_input_info();
-	 * 
+	 * @see mysql_sanitize_db_input_info()
 	 * @return string  the cleaned password string that is safe to check against the database hash of it.
 	 */
 	function mysql_sanitize_password($string)

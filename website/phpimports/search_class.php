@@ -5,12 +5,13 @@ require_once('functions.php');
 /**
  * A search utility to account for multiple different queries, and aiding in pagination
  * 
- * This class takes in the _table to search on, the _column of that _table to search on, the searching _term,
- * and any starting _offset to begin with.
+ * This class takes in the `_table` to search on, the `_column` of that `_table` to search on, 
+ * the searching `_term`, and any starting `_offset` to begin with.
  * 
- * In future versions, $_offset will likely be replaced with $page, where $_offset is 10x bigger than $page.
+ * In future versions, `$_offset` will likely be replaced with `$page`, where `$_offset` is 
+ * 10x bigger than `$page`.
  * 
- * As of now, pagination is handled using $_offset.
+ * As of now, pagination is handled using `$_offset`.
  * 
  * @author      Benjamin Arehart <benjamin@arehart.com>
  * @version     v2.6.2
@@ -63,10 +64,10 @@ class Search {
      * 
      * Defines the four class variables and then validates them.
      * 
-     * @param string    $_table     the string to define the table.
-     * @param string    $_column    the string to define the column.
-     * @param string    $_term      the string to define the search term.
-     * @param int       $_offset    an integer to offset the query by. Defaults to 0.
+     * @param string    $_table   The string to define the table.
+     * @param string    $_column  The string to define the column.
+     * @param string    $_term    The string to define the search term.
+     * @param int       $_offset  Optional. An integer to offset the query by. Default 0.
      * 
      * @return Search  the Search object.
      */
@@ -119,8 +120,9 @@ class Search {
     }
 
     /**
-     * Creates the MySQL query based on the search input.
-     * @return: a string query
+     * Creates the MySQL query based on the search input
+     * 
+     * @return string  a string query
      * @access private
      */
     private function buildQuery() {
@@ -279,7 +281,7 @@ _STRING;
     /**
      * queries the database and structures the output HTML table
      * 
-     * Calls the $this->buildQuery() function to get the search query for this object, and sets the offset
+     * Calls the `$this->buildQuery()` function to get the search query for this object, and sets the offset
      * for the query (if any). 
      * 
      * @return string  typically a lengthy string of HTML tags, but if the query fails, then a short message
@@ -454,7 +456,7 @@ _STRING;
     /**
      * gets the number of rows total that the search query returns
      * 
-     * Runs the query and returns the number of rows. Works without using the OFFSET or LIMIT keywords that
+     * Runs the query and returns the number of rows. Works without using the `OFFSET` or `LIMIT` keywords that
      * the displayed query runs. Useful for accounting for the uper limit of pagination.
      * 
      * @return int  number of rows returned by the search query.

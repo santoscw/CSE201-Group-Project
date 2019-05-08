@@ -5,7 +5,10 @@ require_once('functions.php');
 /**
  * Adds a comment to the comments table
  * 
- * @return string  the success or fail message
+ * @param int $dog_id   The id of the dog to add a comment to.
+ * @param int $user_id  The id of the user to add a comment from.
+ * @param int $comment  The comment to add.      
+ * @return string   the success or fail message
  */
 function addComment($dog_id, $user_id, $comment) {
     $query = <<<_STRING
@@ -24,9 +27,10 @@ _STRING;
 /**
  * Deletes a comment from the comments table
  * 
- * @return string  the success or fail message
+ * @param int $commentid    The id of the comment to remove.
+ * @return string           The success or fail message.
  */
-function delComment ($commentid) {
+function delComment($commentid) {
     $query = <<<_STRING
         DELETE FROM `commentDog` WHERE id = $commentid
 _STRING;
@@ -85,7 +89,9 @@ class CommentTable {
     /**
      * Creates the CommentTable object
      * 
-     * @return CommentTable  the CommentTable object.
+     * @param int $user_id      The id of the user looking at the table.
+     * @param int $dog_id       The id of the dog that the user is looking at.
+     * @return CommentTable     The `CommentTable` object.
      */
     public function __construct($user_id, $dog_id) {
         $this->_user_id = $user_id;
@@ -111,7 +117,7 @@ _STRING;
     /**
      * Creates the MySQL query based on the dog id.
      * 
-     * @return: a string query
+     * @return string  A string query.
      * @access private
      */
     private function buildQuery() {
@@ -135,6 +141,7 @@ _STRING;
      * 
      * If the user level is high enough, this will also have a 'Remove' column that works to remove comments
      * 
+     * @return string  If successful, a very long string of HTML tags. If not, then an error message.
      * @access public
      */
     public function query() {
