@@ -95,7 +95,6 @@ _STRING;
 <head>
     <title>The Dog-alogue: Search</title>
     <?php echo $headerImport; ?>
-    <link rel="icon" type="image/ico" href="images/favicon.ico">
     <script type="text/javascript">
         $(function() {
             $("a.submitProxy").on("click", function(e) {

@@ -5,18 +5,18 @@
 	$un = 'phpconnect';
 	$pw = 'phpconnect1234';
 	$socket = '/var/run/mysqld/mysqld.sock';
-	$connection = 	new mysqli($hn, $un, $pw, $dbuser, 3306, $socket);
+	$connection = 	new mysqli($hn, $un, $pw, $dbdata, 3306, $socket);
 	$data = 		new mysqli($hn, $un, $pw, $dbdata, 3306, $socket);
 	if ($connection->connect_error) die($connection->connect_error);
 	if ($data->connect_error) die($data->connect_error);
-	
 	
 	function closeConnection()
 	{
 		global $connection;
 		$connection->close();
 	}
-	
+
+
 	function closeData()
 	{
 		global $data;

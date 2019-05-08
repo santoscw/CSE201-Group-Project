@@ -30,8 +30,7 @@
 		$homeactive = "ui-btn-active ui-state-persist";
     require_once 'phpimports/admin_nav.php';
 
-    closeConnection();
-    
+   
 
 ?>
 <!DOCTYPE html>

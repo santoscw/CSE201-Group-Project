@@ -15,11 +15,9 @@
         $query  = "SELECT * FROM user WHERE username='$un_temp'";
         $result = queryData($query);
         if (!$result) {
-            die($connection->error);
+            die($data->error);
         } elseif ($result->num_rows) {
             $row = $result->fetch_array(MYSQLI_NUM);
-            
-            $result->close();
             
             if (password_verify($token, $row[3])) {
                 session_start();
@@ -42,7 +40,6 @@
             $error = null;
         }
     }
-    closeConnection();
 ?>
 <!DOCTYPE html>
 <html>

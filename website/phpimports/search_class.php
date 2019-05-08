@@ -367,8 +367,6 @@ _STRING;
                 }
                 $outputtable = $outputtable . "</tbody></table>";
             } else if ($this->_table == "shelter") {
-				//                            <th data-priority="2">City</th>
-
                 $outputtable = <<<_STRING
                 <table data-role="table" id="search_table" data-mode="columntoggle" class="ui-responsive ui-table ui-corner-all">
                     <thead>
@@ -403,8 +401,8 @@ _STRING;
                 }
                 $outputtable = $outputtable . "</tbody></table>";
             }
-            $result->close();
 
+            closeData();
             return $outputtable;
         }
     }

@@ -7,7 +7,6 @@
 
 	require_once 'phpimports/admin_nav.php';
 
-    
     if (isset($_POST['username']) && isset($_POST['password'])) {
         if ($_POST['password'] == $_POST['repassword']) {
             $un_temp = mysql_sanitize_db_input_info($_POST['username']);
@@ -17,11 +16,9 @@
             $query  = "SELECT * FROM user WHERE username='$un_temp'";
             $result = queryData($query);
             if (!$result) {
-                die($connection->error);
+                die($data->error);
             } elseif ($result->num_rows) {
                 $row = $result->fetch_array(MYSQLI_NUM);
-                
-                $result->close();
                 
                 if ($row[1] == $un_temp) {
                     $usernameErr = "Username already taken.";
@@ -47,7 +44,7 @@
                     $query = "INSERT INTO user (username, email, password) VALUES('$un_temp', '$email_temp', '$token')";
                     $result = queryData($query);
                     if (!$result) {
-                        die($connection->error);
+                        die($data->error);
 					}
 					session_start();
 					$_SESSION['username'] = $un_temp;
@@ -61,7 +58,6 @@
             $error = null;
         }
     }
-    closeConnection();
 ?>
 <!DOCTYPE html>
 <html>
