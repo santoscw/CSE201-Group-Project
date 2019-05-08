@@ -40,35 +40,6 @@
 		<title>The Dog-alogue: Home</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<?php echo $headerImport; ?>
-		<script type="text/javascript">
-			$(function() {
-				$("[data-role='navbar']").navbar();
-				$("[data-role='header']").toolbar();
-				$("[data-role='popup']").enhanceWithin().popup();
-				$("a.submitProxy").on("click", function(e) {
-					e.preventDefault();
-					$(this).closest("form").submit();
-				});
-				$("#column").selectmenu("disable");
-				$("#db").change(function() {
-					var value = $(this).val();
-					if(value == "") {
-						$("#column").html("<option value='' data-placeholder='true'>Choose...</option>");
-					} else {
-						if (value == "dog") {
-							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='breed'>Breed</option><option value='shelter'>Shelter</option>");
-						} else if (value == "breed") {
-							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='type'>Type</option>");
-						} else if (value == "shelter") {
-							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='city'>City</option>");
-						}
-						$("#column").selectmenu("enable");
-					}
-					$("#column").selectmenu("refresh");
-				});
-			});
-			
-		</script>
 
 	</head>
 	<body>
@@ -169,5 +140,34 @@
 				</div>
 			</div>
 		</footer>
+		<script type="text/javascript">
+			$(function() {
+//				$("[data-role='navbar']").navbar();
+//				$("[data-role='header']").toolbar();
+				$("a.submitProxy").on("click", function(e) {
+					e.preventDefault();
+					$(this).closest("form").submit();
+				});
+				$("#column").selectmenu("disable");
+				$("#db").change(function() {
+					var value = $(this).val();
+					if(value == "") {
+						$("#column").html("<option value='' data-placeholder='true'>Choose...</option>");
+					} else {
+						if (value == "dog") {
+							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='breed'>Breed</option><option value='shelter'>Shelter</option>");
+						} else if (value == "breed") {
+							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='type'>Type</option>");
+						} else if (value == "shelter") {
+							$("#column").html("<option value='' data-placeholder='true'>Choose...</option><option value='name'>Name</option><option value='city'>City</option>");
+						}
+						$("#column").selectmenu("enable");
+					}
+					$("#column").selectmenu("refresh");
+				});
+			});
+			
+		</script>
+
 	</body>
 </html>

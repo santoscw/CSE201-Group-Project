@@ -165,15 +165,6 @@ _STRING;
 	<head>
 		<title>The Dog-alogue: <?php echo $dog_name; ?></title>
 		<?php echo $headerImport; ?>
-		<link rel="icon" type="image/ico" href="images/favicon.ico">
-		<script type="text/javascript">
-			$(function() {
-				$("a.submitProxy").on("click", function(e) {
-					e.preventDefault();
-					$(this).closest("form").submit();
-				});
-			});
-		</script>
 	</head>
 	<body>
 		<div data-role="header" class="ui-header ui-bar-inherit">
@@ -196,5 +187,14 @@ _STRING;
             <?php echo $addComment; ?>
             <?php echo $catastrophic; ?>
 		</div>
+        <script type="text/javascript">
+			$(function() {
+				$("a.submitProxy").on("click", function(e) {
+					e.preventDefault();
+					$(this).closest("form").submit();
+				});
+			});
+		</script>
+
 	</body>
 </html>

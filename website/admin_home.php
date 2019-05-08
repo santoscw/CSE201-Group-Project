@@ -231,14 +231,7 @@ _STRING;
 <head>
 	<title>Add Entries</title>
 	<?php echo $headerImport; ?>
-	<script type="text/javascript">
-    	$(function() {
-			$("a.submitProxy").on("click", function(e) {
-				e.preventDefault();
-				$(this).closest("form").submit();
-			});
-		});
-	</script>
+	
 </head>
 <body>
 	<header data-role="header" class="ui-header ui-bar-inherit">
@@ -362,5 +355,13 @@ _STRING;
 			<?php echo $dogtable; ?>
 		</div>
 	</div>
+	<script type="text/javascript">
+    	$(function() {
+			$("a.submitProxy").on("click", function(e) {
+				e.preventDefault();
+				$(this).closest("form").submit();
+			});
+		});
+	</script>
 </body>
 </html>			
