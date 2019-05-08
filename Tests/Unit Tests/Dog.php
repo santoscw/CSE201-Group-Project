@@ -1,31 +1,93 @@
 <?php
 
+require_once('C:\wamp64\www\app\Website\phpimports\functions.php');
+
+/**
+* Adds a dog entry to the dog table
+*
+* @return string success or fail message
+*/
+function addDog($id, $name, $section, $country, $image)
+{
+  $data = new mysqli('localhost', 'phpconnect', 'phpconnect1234', 'dog', '3306', 'var/run/mysqld.sock');
+    $query = <<<_STRING
+        INSERT INTO `dog` (dog_id, name, section, country, image) VALUES ('$id', '$name', '$section', '$country', '$image')
+_STRING;
+    $result = queryData($query);
+
+    if (!$result)
+        return 'Entry added';
+    else
+    {
+        return "<p class='submit'>Entry added</p>";
+    }
+}// End addDog
+
+
 class Dog
 {
-  protected $breed;
-  protected $size;
-  protected $lifeExpec;
+  /**
+  * @var string
+  * @access private
+  */
+  protected $name;
 
-  public function __construct($breed, $size, $lifeExpec)
+  /**
+  * @var int
+  * @access private
+  */
+  private $id;
+
+  /**
+  * @var string
+  * @access private
+  */
+  protected $section;
+
+  /**
+  * @var string
+  * @access private
+  */
+  protected $country;
+
+  /**
+  * @var string
+  * @access private
+  */
+  protected $image;
+
+  public function __construct($id, $name, $section, $country, $image)
   {
-    $this->_breed = $breed;
-    $this->_size = $size;
-    $this->_lifeExpec = $lifeExpec;
+    $this->_id = $id;
+    $this->_name = $name;
+    $this->_section = $section;
+    $this->_country = $country;
+    $this->_image = $image;
   }
 
-  public function getBreed()
+  public function getID()
   {
-    return $this->_breed;
+    return $this->_id;
   }
 
-  public function getSize()
+  public function getName()
   {
-    return $this->_size;
+    return $this->_name;
   }
 
-  public function getLifeExpec()
+  public function getSection()
   {
-    return $this->_lifeExpec;
+    return $this->_section;
+  }
+
+  public function getCountry()
+  {
+    return $this->_country;
+  }
+
+  public function getImage()
+  {
+    return $this->_image;
   }
 
 }
