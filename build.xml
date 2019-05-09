@@ -21,28 +21,28 @@
                 <!-- Clone repository -->
         <gitclone
                 repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/admin_home.php"
-                targetPath="$build.git}" />
+                targetPath="${build.git}" />
         <gitclone
                 repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/breed.php"
-                targetPath="$build.git}" />
+                targetPath="${build.git}" />
         <gitclone
                 repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/dog.php"
-                targetPath="$build.git}" />
+                targetPath="${build.git}" />
         <gitclone
                 repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/index.php"
-                targetPath="$build.git}" />
+                targetPath="${build.git}" />
         <gitclone
                 repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/login.php"
-                targetPath="$build.git}" />
+                targetPath="${build.git}" />
         <gitclone
                 repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/results.php"
-                targetPath="$build.git}" />
+                targetPath="${build.git}" />
         <gitclone
                 repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/signup.php"
-                targetPath="$build.git}" />
+                targetPath="${build.git}" />
         <gitclone
                 repository="git://github.com/santoscw/CSE201-Group-Project/blob/master/website/users.php"
-                targetPath="$build.git}" />
+                targetPath="${build.git}" />
 
         
         <echo msg="All files downloaded" />
